@@ -1,3 +1,6 @@
+## Database Diagram
+![Screenshot of the first database diagram](/Frontend/public/DbDiagram.drawio.png)
+
 Final Project For NORCS-SD-13 Group 7
 
 | Group Members | Email | Github |
