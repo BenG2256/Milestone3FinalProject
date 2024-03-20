@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({Users, Locations}) {
+    static associate({ Users, Locations }) {
       // define association here
       Reviews.belongsTo(Users, {
         foreignKey: "user_id",
@@ -21,19 +21,19 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Reviews.init({
-    rating_id:{
+    review_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    rating:{
+    rating: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    rating_description:  {
+    rating_description: {
       type: DataTypes.STRING,
 
-  },
+    },
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -50,12 +50,12 @@ module.exports = (sequelize, DataTypes) => {
         key: "location_id"
       },
     },
-    },
-  {
-    sequelize,
-    modelName: 'Reviews',
-    tableName: 'reviews',
-    timestamps: false
-  });
+  },
+    {
+      sequelize,
+      modelName: 'Reviews',
+      tableName: 'reviews',
+      timestamps: false
+    });
   return Reviews;
 };
