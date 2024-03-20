@@ -46,6 +46,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
     hooks: {
       beforeSave: async (user) => {
+        console.log('Before saving user:', user.toJSON());
         await user.hashPassword();
       }
     }

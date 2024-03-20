@@ -1,40 +1,45 @@
-const router = require('express').Router()
-const db = require("../models")
-const bcrypt = require('bcrypt')
-const jwt = require('json-web-token')
+const router = require('express').Router();
+const db = require('../models');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-const { User } = db
+const { Users } = db;
 
 router.post('/', async (req, res) => {
-
-    let user = await User.findOne({
-        where: { email: req.body.email }
-    })
-
-    if (!user || !await bcrypt.compare(req.body.password, user.passwordDigest)) {
-        res.status(404).json({ message: `Could not find a user with the provided username and password` })
-    } else {
-        const result = await jwt.encode(process.env.JWT_SECRET, { id: user.userId })
-        res.json({ user: user, token: result.value })
+  try {
+    const { email, password } = req.body;
+    const user = await Users.findOne({ where: { email } });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(404).json({ message: 'Invalid email or password' });
     }
-})
+    const token = jwt.sign({ userId: user.userId }, process.env.JWT_SECRET);
+    res.json({ user, token });
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 router.get('/profile', async (req, res) => {
-    try {
-        const [method, token] = req.headers.authorization.split(' ')
-        if (method == 'Bearer') {
-            const result = await jwt.decode(process.env.JWT_SECRET, token)
-            const { id } = result.value
-            let user = await User.findOne({
-                where: {
-                    userId: id
-                }
-            })
-            res.json(user)
-        }
-    } catch (err) {
-        res.json(null)
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'Unauthorized' });
     }
-})
+    const token = authHeader.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await Users.findByPk(decoded.userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error('Error during profile retrieval:', error);
+    if (error instanceof jwt.JsonWebTokenError) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
-module.exports = router
+module.exports = router;
