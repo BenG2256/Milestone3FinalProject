@@ -1,11 +1,15 @@
 import React from 'react';
-import Map from './Map';
+import MapComponent from './MapComponent';
 
 function App() {
   return (
     <div className="App">
-      <h1>The Map</h1>
-      <Map />
+      <header className="App-header">
+        <h1>Map</h1>
+      </header>
+      <main>
+        <MapComponent />
+      </main>
     </div>
   );
 }
