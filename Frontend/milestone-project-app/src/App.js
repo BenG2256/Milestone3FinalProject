@@ -1,15 +1,13 @@
 import React from 'react';
-import MapComponent from './MapComponent';
+import Map from './Map';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Map</h1>
+        <h1>Map App</h1>
       </header>
-      <main>
-        <MapComponent />
-      </main>
+      <Map />
     </div>
   );
 }
