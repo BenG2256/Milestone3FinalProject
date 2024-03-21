@@ -3,7 +3,7 @@ const db = require("../models")
 const bcrypt = require('bcrypt')
 
 const { Users } = db
-const { Users } = db
+
 
 router.post('/', async (req, res) => {
     let { password, ...rest } = req.body;
@@ -16,7 +16,6 @@ router.post('/', async (req, res) => {
 
 
 router.get('/', async (req, res) => {
-    const users = await Users.findAll()
     const users = await Users.findAll()
     res.json(users)
 })
