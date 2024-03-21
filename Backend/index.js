@@ -7,7 +7,10 @@ const app = express();
 // const defineCurrentUser = require('./middleware/defineCurrentUser')
 
 // Express Settings
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:3000', // Specify the allowed origin here
+    credentials: true, // Enable credentials
+  }))
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -19,7 +22,7 @@ app.use(express.urlencoded({ extended: true }))
 
 // app.use('/places', require('./controllers/places'))
 app.use('/users', require('./controllers/users'))
-app.use('/authentication', require('./controllers/authentication'))
+app.use('/api', require('./controllers/authentication'))
 
 // Listen for Connections
 app.listen(process.env.PORT, () => {

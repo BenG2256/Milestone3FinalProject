@@ -11,10 +11,12 @@ module.exports = (sequelize, DataTypes) => {
     }
     // Hash password before saving to the database
     async hashPassword() {
+      console.log('Password changed:', this.changed('password'));
       if (this.changed('password')) {
         this.password = await bcrypt.hash(this.password, 10);
       }
     }
+    
   }
 
   Users.init({
