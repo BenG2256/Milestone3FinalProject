@@ -23,4 +23,6 @@ router.get('/:location_id', async (req, res) => {
     res.status(200).json(review)
 })
 
+
+
 module.exports = router

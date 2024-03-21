@@ -19,8 +19,8 @@ app.use(express.urlencoded({ extended: true }))
 
 // app.use('/places', require('./controllers/places'))
 app.use('/reviews', require("./controllers/reviews"))
-// app.use('/users', require('./controllers/users'))
-// app.use('/authentication', require('./controllers/authentication'))
+app.use('/users', require('./controllers/users'))
+app.use('/authentication', require('./controllers/authentication'))
 
 
 
