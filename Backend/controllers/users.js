@@ -1,7 +1,8 @@
 const router = require('express').Router()
 const db = require("../models")
-const bcrypt = require('bcrypt') 
+const bcrypt = require('bcrypt')
 
+const { Users } = db
 const { Users } = db
 
 router.post('/', async (req, res) => {
@@ -15,6 +16,7 @@ router.post('/', async (req, res) => {
 
 
 router.get('/', async (req, res) => {
+    const users = await Users.findAll()
     const users = await Users.findAll()
     res.json(users)
 })
