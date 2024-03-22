@@ -17,6 +17,7 @@ const Map = () => {
       position => {
         const { latitude, longitude } = position.coords;
         map.setCenter([longitude, latitude]);
+
         
         // Add a marker for the user's current location
         new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map);
@@ -39,6 +40,23 @@ const Map = () => {
           .catch(error => {
             console.error('Error searching for nearby restaurants:', error);
           });
+
+
+        // Fetch nearby places using obtained location
+        const options = {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+            Authorization: 'fsq3agO3EAI9tSf5SCoyd0czUKTwQZp22Tqy+f5fp1rR77M='
+          }
+        };
+        const url = `https://api.foursquare.com/v3/places/nearby?ll=${latitude},${longitude}`;
+        
+        fetch(url, options)
+          .then(response => response.json())
+          .then(response => console.log(response))
+          .catch(err => console.error(err));
+
       },
       error => {
         console.error('Error getting user location:', error);
