@@ -23,6 +23,17 @@ router.get('/:location_id', async (req, res) => {
     res.status(200).json(review)
 })
 
+// get a single review
+router.get('/:location_id/review/:review_id', async (req, res) => {
+    let location_id = Number(req.params.location_id)
+    let review_id = Number(req.params.review_id)
+    const reviews = await Reviews.findOne({
+        where: { review_id: review_id, location_id: location_id }
+    })
+    res.status(200).json(reviews)
+})
+
+// post a review
 router.post('/', async (req, res) => {
     try {
         const { rating, rating_description, user_id, location_id } = req.body;
@@ -56,6 +67,70 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ error: 'Validation error', details: error.errors });
         }
         res.status(500).json({ error: 'Internal Server Error' });
+    }
+})
+
+// edit a review
+router.put('/:location_id/review/:review_id', async (req, res) => {
+    let location_id = Number(req.params.location_id)
+    let review_id = Number(req.params.review_id)
+
+    if (isNaN(location_id)) {
+        res.status(404).json({ message: `Invalid id "${location_id}` })
+    }
+    else if (isNaN(review_id)) {
+        res.status(404).json({ message: `Invalid id "${review_id}"` })
+    } else {
+        const reviews = await Reviews.findOne({
+            where: { review_id: review_id, location_id: location_id }
+        })
+        if (!reviews) {
+            res.status(404).json({ message: `Could not find comment with id "${review_id}" for place with id "${location_id}"` })
+
+
+
+            // uncomment out when ready to try with user token
+
+
+            // } else if (reviews.user_id !== req.currentUser?.user_id) {
+            //     res.status(403).json({ message: `You do not have permission to delete comment "${reviews.review_id}"` })
+        } else {
+            Object.assign(reviews, req.body)
+            await reviews.save()
+            res.json(reviews)
+        }
+    }
+})
+
+
+//delete a review
+router.delete('/:location_id/review/:review_id', async (req, res) => {
+    let location_id = Number(req.params.location_id)
+    let review_id = Number(req.params.review_id)
+
+    if (isNaN(location_id)) {
+        res.status(404).json({ message: `Invalid id "${location_id}` })
+    }
+    else if (isNaN(review_id)) {
+        res.status(404).json({ message: `Invalid id "${review_id}"` })
+    } else {
+        const reviews = await Reviews.findOne({
+            where: { review_id: review_id, location_id: location_id }
+        })
+        if (!reviews) {
+            res.status(404).json({ message: `Could not find comment with id "${review_id}" for place with id "${location_id}"` })
+
+
+            // uncomment out when ready to try with user token
+
+
+            // } else if (reviews.user_id !== req.currentUser?.user_id) {
+            //     res.status(403).json({ message: `You do not have permission to delete comment "${reviews.review_id}"` })
+        } else {
+            await reviews.destroy()
+            console.log("review deleted")
+            res.json(reviews)
+        }
     }
 })
 

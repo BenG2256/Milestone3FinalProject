@@ -8,7 +8,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3001/api/login', { 
+      const response = await fetch('http://localhost:3001/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ function Login() {
       if (!response.ok) {
         throw new Error('Invalid email or password');
       }
-      console.log('Login successful'); 
+      console.log('Login successful');
     } catch (error) {
       setError(error.message);
     }
