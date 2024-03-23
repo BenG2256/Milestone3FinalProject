@@ -1,24 +1,32 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+// import { CurrentUser } from "../contexts/CurrentUser"
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  // const { setCurrentUser } = useContext(CurrentUser)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3001/api/login', {
+      const response = await fetch('http://localhost:3001/authentication/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
       });
+
+      const data = await response.json()
+
       if (!response.ok) {
         throw new Error('Invalid email or password');
+      } else {
+        // setCurrentUser(data.user)
+        localStorage.setItem('token', data.token)
+        console.log('Login successful');
       }
-      console.log('Login successful');
     } catch (error) {
       setError(error.message);
     }

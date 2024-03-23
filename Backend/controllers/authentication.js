@@ -9,24 +9,27 @@ router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 
+        console.log(password)
+        console.log(await bcrypt.hash(password, 10))
         // Validate email and password
         if (!email || !password) {
             return res.status(400).json({ message: 'Email and password are required' });
         }
 
-        const user = await Users.findOne({ where: { email } });
+        const user = await Users.findOne({ where: { email: email } });
         if (!user || !await bcrypt.compare(password, user.password)) {
             return res.status(401).json({ message: 'Invalid email or password' });
+        } else {
+
+            // Generate JWT token
+            const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET);
+
+            // Log successful login attempt
+            console.log(`User ${email} logged in successfully`);
+
+            // Send user data and token to the client
+            res.json({ user, token });
         }
-
-        // Generate JWT token
-        const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET);
-
-        // Log successful login attempt
-        console.log(`User ${email} logged in successfully`);
-
-        // Send user data and token to the client
-        res.json({ user, token });
     } catch (error) {
         console.error('Error during login:', error);
         res.status(500).json({ message: 'Internal server error' });

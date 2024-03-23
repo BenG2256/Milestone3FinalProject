@@ -4,14 +4,33 @@ const bcrypt = require('bcrypt')
 
 const { Users } = db
 
+// create user route with encryption
 
+// router.post('/', async (req, res) => {
+//     let { password, ...rest } = req.body;
+//     console.log("the password is: ", password)
+//     let hashedPassword = await bcrypt.hash(password, 10);
+//     const users = await Users.create({
+//         ...rest,
+//         password: hashedPassword
+//     })
+//     res.json(users)
+//     console.log("user creation password: ", password)
+//     console.log("user creation hashed password: ", hashedPassword)
+// })
+
+//create user route without encryption
 router.post('/', async (req, res) => {
     let { password, ...rest } = req.body;
+    console.log("the password is: ", password)
+
     const users = await Users.create({
         ...rest,
-        password: await bcrypt.hash(password, 10)
+        password: password
     })
     res.json(users)
+    console.log("user creation password: ", password)
+
 })
 
 

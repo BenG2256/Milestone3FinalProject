@@ -92,8 +92,8 @@ router.put('/:location_id/review/:review_id', async (req, res) => {
             // uncomment out when ready to try with user token
 
 
-            // } else if (reviews.user_id !== req.currentUser?.user_id) {
-            //     res.status(403).json({ message: `You do not have permission to delete comment "${reviews.review_id}"` })
+        } else if (reviews.user_id !== req.currentUser?.user_id) {
+            res.status(403).json({ message: `You do not have permission to delete comment "${reviews.review_id}"` })
         } else {
             Object.assign(reviews, req.body)
             await reviews.save()
