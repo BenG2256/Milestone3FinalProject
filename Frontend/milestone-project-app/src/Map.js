@@ -12,6 +12,13 @@ const Map = () => {
       zoom: 9
     });
 
+    const addMarkers = (coordinates, popupContent = null) => {
+      new mapboxgl.Marker()
+        .setLngLat(coordinates)
+        .setPopup(popupContent)
+        .addTo(map);
+    };
+
     // Get user's current location
     navigator.geolocation.getCurrentPosition(
       position => {
@@ -20,7 +27,7 @@ const Map = () => {
 
         
         // Add a marker for the user's current location
-        new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map);
+        addMarkers([longitude, latitude], new mapboxgl.Popup().setHTML('<h3>Your Location</h3>'));
 
         // Search for nearby restaurants using Foursquare API
         fetch(`https://api.foursquare.com/v2/venues/explore?client_id=VRTP2TAGBNTCOWTEETZQUZN2K5UXXDTNR05EHTNF4OLJS3O1&client_secret=2AUCMGX3KUYFNANS0CKZJYFKCSYREVRINHC5J4GP5K1UJMFZ
