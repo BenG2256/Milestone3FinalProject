@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router'
 // import { CurrentUser } from "../contexts/CurrentUser"
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const history = useHistory()
   // const { setCurrentUser } = useContext(CurrentUser)
 
   const handleSubmit = async (e) => {
@@ -25,6 +27,7 @@ function Login() {
       } else {
         // setCurrentUser(data.user)
         localStorage.setItem('token', data.token)
+        history.push(`../Map`)
         console.log('Login successful');
       }
     } catch (error) {
