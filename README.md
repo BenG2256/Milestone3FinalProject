@@ -9,3 +9,9 @@ Final Project For NORCS-SD-13 Group 7
 |Mary Imarenezor | Maryimarenezor13@gmail.com | [MaryImarenezor](https://github.com/MaryImarenezor) |
 |Thomas McCullough | tamccullough88@gmail.com | [Tamccullough88](https://github.com/tamccullough88) |
 |Zach Fountain |  zach.fount@outlook.com | [ZachFount](https://github.com/ZachFount) |
+
+### Routes:
+
+"/login"  - route for the login page 
+
+"/" - route for home page

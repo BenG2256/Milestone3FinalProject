@@ -11,9 +11,8 @@ root.render(
   <React.StrictMode>
   <Login />
   </React.StrictMode>
+);
 
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <App />
 
