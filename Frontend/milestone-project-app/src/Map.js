@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiemFjaGZvdW50MSIsImEiOiJjbHUwZmZ6MGEwMm9qMmtycHNnb2ZhNnVmIn0.3iOk3GBPpQgZBnR0rA1b9A';
+mapboxgl.accessToken = 'pk.eyJ1IjoiemFjaGZvdW50MSIsImEiOiJjbHU3aWxicXgwNncyMmpuMGx6ZXJqMjd1In0.Y3FGLQWa25Z5ZBY0y0GsCQ';
 
 const Map = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -33,26 +33,19 @@ const Map = () => {
         addMarkers([longitude, latitude], new mapboxgl.Popup().setHTML('<h3>Your Location</h3>'));
 
         // Search for nearby restaurants using Foursquare API
-        fetch(`https://api.foursquare.com/v2/venues/explore?client_id=VRTP2TAGBNTCOWTEETZQUZN2K5UXXDTNR05EHTNF4OLJS3O1&client_secret=2AUCMGX3KUYFNANS0CKZJYFKCSYREVRINHC5J4GP5K1UJMFZ
-        &v=20220315&ll=${latitude},${longitude}&query=restaurant&limit=10`)
+        const options = {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+            Authorization: 'fsq3vJtJHD6pkvCyJi4+k3uNuYmss7LvvI/SKhW6jxqHHIs='
+          }
+        };
+        
+        fetch('https://api.foursquare.com/v3/places/search?query=restaurant', options)
           .then(response => response.json())
-          .then(data => {
-            const restaurantsData = data.response.groups[0].items;
-            setRestaurants(restaurantsData);
-            restaurantsData.forEach(restaurant => {
-              const { lat, lng } = restaurant.venue.location;
-              addMarkers([lng, lat], new mapboxgl.Popup().setHTML(`<h3>${restaurant.venue.name}</h3>`));
-            });
-          })
-          .catch(error => {
-            console.error('Error searching for nearby restaurants:', error);
-          });
-
-      },
-      error => {
-        console.error('Error getting user location:', error);
-      }
-    );
+          .then(response => console.log(response))
+          .catch(err => console.error(err));
+  });
 
     return () => map.remove();
   }, []);
