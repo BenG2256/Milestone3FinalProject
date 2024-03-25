@@ -7,6 +7,7 @@ const Map = () => {
   const [restaurants, setRestaurants] = useState([]);
 
   useEffect(() => {
+    // Initialize map only after the DOM is ready
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -15,6 +16,7 @@ const Map = () => {
     });
 
     const addMarkers = (coordinates, popupContent = null) => {
+      if (!map || !map.loaded()) return; // Check if map is initialized and loaded
       new mapboxgl.Marker()
         .setLngLat(coordinates)
         .setPopup(popupContent)
@@ -39,10 +41,7 @@ const Map = () => {
             setRestaurants(restaurantsData);
             restaurantsData.forEach(restaurant => {
               const { lat, lng } = restaurant.venue.location;
-              new mapboxgl.Marker()
-                .setLngLat([lng, lat])
-                .setPopup(new mapboxgl.Popup().setHTML(`<h3>${restaurant.venue.name}</h3>`))
-                .addTo(map);
+              addMarkers([lng, lat], new mapboxgl.Popup().setHTML(`<h3>${restaurant.venue.name}</h3>`));
             });
           })
           .catch(error => {
