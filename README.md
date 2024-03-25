@@ -21,7 +21,7 @@ For ease of access, pgAdmin4 is recommended.
 - React frontend including a map populated with nearby locations dependant on user location. Users and manage their own reviews,
 as well as view reviews left by other users.
 - JavaScriptXML (JSX) used to write HTML elements in JavaScript
-- SASS (Syntactically Awesome Style Sheets) used to style webpages.
+- SASS (Syntactically Awesome Style Sheets) and Bootstrap used to style webpages.
 
 ## Application Previews
 -***COMING SOON***
@@ -39,6 +39,7 @@ as well as view reviews left by other users.
 ## Technologies - Frontend
 - [React](https://react.dev/learn/installation)
 - [SASS](https://sass-lang.com/documentation/)
+- [Boottrap](https://getbootstrap.com/docs/5.3/getting-started/download/)
 
 ## App Setup - Backend
 **Note: Gitbash is recommended and the following instructions will be made with gitbash commands**
@@ -58,7 +59,7 @@ Additionally, create a backend server `PORT` variable and assign it to a free po
 - Run `npm start`
 
 ## Deployment
--***COMING SOON**
+-***COMING SOON***
 
 ## Features
 
@@ -68,9 +69,9 @@ Additionally, create a backend server `PORT` variable and assign it to a free po
 
 ## Contributors
 
-- Thomas McCullough | tamccullough88@gmail.com | ([GitHub Profile] (https://github.com/tamccullough88))
-- Benjamin Gilley | bengilley5@gmail.com | ([GitHub Profile] (https://github.com/BenG2256)) 
-- Zach Fountain |  zach.fount@outlook.com | ([GitHub Profile] (https://github.com/ZachFount))
+- Thomas McCullough | tamccullough88@gmail.com | ([GitHub Profile](https://github.com/tamccullough88))
+- Benjamin Gilley | bengilley5@gmail.com | ([GitHub Profile](https://github.com/BenG2256)) 
+- Zach Fountain |  zach.fount@outlook.com | ([GitHub Profile](https://github.com/ZachFount))
 - Mary Imarenezor | Maryimarenezor13@gmail.com | ([GitHub Profile](https://github.com/MaryImarenezor))
 ## Database Diagram
 ![Screenshot of the first database diagram](/Frontend/public/DatabaseDiagram.png)
