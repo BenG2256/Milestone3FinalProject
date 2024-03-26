@@ -12,11 +12,3 @@ root.render(
   </React.StrictMode>
 );
 
-<<<<<<< HEAD
-ReactDOM.render(
- <App />,
-  document.getElementById('root')
-);
-=======
-
->>>>>>> 2d442f0d5a8df4619e81a3e8e346d97b68c5fc11
