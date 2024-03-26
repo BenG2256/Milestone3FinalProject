@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
-import { useHistory } from 'react-router'
-// import { CurrentUser } from "../contexts/CurrentUser"
+import { useNavigate } from 'react-router-dom'
+import { CurrentUser } from "../../contexts/CurrentUser"
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const history = useHistory()
-  // const { setCurrentUser } = useContext(CurrentUser)
+  const navigation = useNavigate()
+  const { setCurrentUser } = useContext(CurrentUser)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,10 +25,10 @@ function Login() {
       if (!response.ok) {
         throw new Error('Invalid email or password');
       } else {
-        // setCurrentUser(data.user)
+        setCurrentUser(data.user)
         localStorage.setItem('token', data.token)
-        history.push(`../Map`)
-        console.log('Login successful');
+        navigation(`../home`)
+        console.log('Login successful', data.username);
       }
     } catch (error) {
       setError(error.message);

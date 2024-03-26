@@ -18,7 +18,7 @@ const Map = () => {
         const { latitude, longitude } = position.coords;
         map.setCenter([longitude, latitude]);
 
-        
+
         // Add a marker for the user's current location
         new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map);
 
@@ -51,7 +51,7 @@ const Map = () => {
           }
         };
         const url = `https://api.foursquare.com/v3/places/nearby?ll=${latitude},${longitude}`;
-        
+
         fetch(url, options)
           .then(response => response.json())
           .then(response => console.log(response))
