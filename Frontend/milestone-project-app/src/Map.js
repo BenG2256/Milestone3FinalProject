@@ -1,28 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiemFjaGZvdW50MSIsImEiOiJjbHUwZmZ6MGEwMm9qMmtycHNnb2ZhNnVmIn0.3iOk3GBPpQgZBnR0rA1b9A';
-
+mapboxgl.accessToken = 'pk.eyJ1IjoiemFjaGZvdW50MSIsImEiOiJjbHU3a2Z3NGgwNzZhMmhwYml1Yng2dDM3In0.hB1Wb6OFmMYNv5gTBXAF-g';
 const Map = () => {
   const [restaurants, setRestaurants] = useState([]);
+  const [map, setMap] = useState(null); // Define map state
 
   useEffect(() => {
     // Initialize map only after the DOM is ready
-    const map = new mapboxgl.Map({
+    const initializedMap = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [0, 0], // Default center before obtaining user's location
       zoom: 15
     });
 
-    const addMarkers = (coordinates, popupContent = null) => {
-      if (!map || !map.loaded()) return; // Check if map is initialized and loaded
-      new mapboxgl.Marker()
-        .setLngLat(coordinates)
-        .setPopup(popupContent)
-        .addTo(map);
-    };
+    setMap(initializedMap); // Set map state
 
+    // Clean up function to remove the map on unmount
+    return () => {
+      initializedMap.remove();
+    };
+  }, []); // Empty dependency array to run only once on mount
+
+  const addMarker = (coordinates, popupContent = null) => {
+    if (!map || !map.loaded()) return; // Check if map is initialized and loaded
+
+    new mapboxgl.Marker()
+      .setLngLat(coordinates)
+      .setPopup(popupContent)
+      .addTo(map);
+  };
+
+  useEffect(() => {
+    if (!map) return; // Check if map is initialized
     // Get user's current location
     navigator.geolocation.getCurrentPosition(
       position => {
@@ -30,32 +41,35 @@ const Map = () => {
         map.setCenter([longitude, latitude]);
 
         // Add a marker for the user's current location
-        addMarkers([longitude, latitude], new mapboxgl.Popup().setHTML('<h3>Your Location</h3>'));
+        addMarker([longitude, latitude], new mapboxgl.Popup().setHTML('<h3>Your Location</h3>'));
 
         // Search for nearby restaurants using Foursquare API
-        fetch(`https://api.foursquare.com/v2/venues/explore?client_id=VRTP2TAGBNTCOWTEETZQUZN2K5UXXDTNR05EHTNF4OLJS3O1&client_secret=2AUCMGX3KUYFNANS0CKZJYFKCSYREVRINHC5J4GP5K1UJMFZ
-        &v=20220315&ll=${latitude},${longitude}&query=restaurant&limit=10`)
+        const options = {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+            Authorization: 'fsq3DnUrdV1vhfKk1UJCE0RxJaF57v3+QbYEXpJH6w4TAas='
+          }
+        };
+        
+        fetch(`https://api.foursquare.com/v3/places/search?query=restaurant&ll=${latitude},${longitude}`, options)
           .then(response => response.json())
-          .then(data => {
-            const restaurantsData = data.response.groups[0].items;
-            setRestaurants(restaurantsData);
-            restaurantsData.forEach(restaurant => {
-              const { lat, lng } = restaurant.venue.location;
-              addMarkers([lng, lat], new mapboxgl.Popup().setHTML(`<h3>${restaurant.venue.name}</h3>`));
+          .then(response => {
+            setRestaurants(response.results);
+            // Add markers for each restaurant
+            response.results.forEach(restaurant => {
+              if (restaurant.location && restaurant.location.lat && restaurant.location.lng) {
+                addMarker(
+                  [restaurant.location.lng, restaurant.location.lat],
+                  new mapboxgl.Popup().setHTML(`<h3>${restaurant.name}</h3>`)
+                );
+              }
             });
           })
-          .catch(error => {
-            console.error('Error searching for nearby restaurants:', error);
-          });
-
-      },
-      error => {
-        console.error('Error getting user location:', error);
+          .catch(err => console.error(err));
       }
     );
-
-    return () => map.remove();
-  }, []);
+  }, [map]); // Run this effect whenever map changes
 
   return (
     <div>
@@ -63,8 +77,17 @@ const Map = () => {
       <div>
         <h2>Restaurants Near You:</h2>
         <ul>
-          {restaurants.map(restaurant => (
-            <li key={restaurant.venue.id}>{restaurant.venue.name}</li>
+          {restaurants.map((restaurant, index) => (
+            <li key={`${restaurant.name}-${index}`}>
+              <button onClick={() => {
+                if (restaurant.location && restaurant.location.lat && restaurant.location.lng) {
+                  map.flyTo({
+                    center: [restaurant.location.lng, restaurant.location.lat],
+                    essential: true
+                  });
+                }
+              }}>{restaurant.name}</button>
+            </li>
           ))}
         </ul>
       </div>
