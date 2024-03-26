@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +20,10 @@ function Login() {
       if (!response.ok) {
         throw new Error('Invalid email or password');
       }
-      console.log('Login successful'); 
+      console.log('Login successful');
+      //insert reroute to the homepage here
+      navigate('/');
+
     } catch (error) {
       setError(error.message);
     }
