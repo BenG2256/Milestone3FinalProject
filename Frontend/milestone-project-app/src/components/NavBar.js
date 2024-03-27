@@ -67,6 +67,9 @@ function NavBar() {
                                 <Nav.Item>
                                     <Nav.Link href="" onClick={() => navigation("/Map")}>Map</Nav.Link>
                                 </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link href="" onClick={() => navigation("/Home")}>Home</Nav.Link>
+                                </Nav.Item>
                             </Nav>
                         </Navbar.Collapse>
                     </Container>
