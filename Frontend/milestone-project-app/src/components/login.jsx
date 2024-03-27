@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
-// import { CurrentUser } from "../contexts/CurrentUser"
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  // const { setCurrentUser } = useContext(CurrentUser)
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +27,10 @@ function Login() {
         localStorage.setItem('token', data.token)
         console.log('Login successful');
       }
+      console.log('Login successful');
+      //insert reroute to the homepage here
+      navigate('/');
+
     } catch (error) {
       setError(error.message);
     }

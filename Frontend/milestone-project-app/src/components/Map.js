@@ -1,23 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiemFjaGZvdW50MSIsImEiOiJjbHUwZmZ6MGEwMm9qMmtycHNnb2ZhNnVmIn0.3iOk3GBPpQgZBnR0rA1b9A';
+mapboxgl.accessToken = 'pk.eyJ1IjoiemFjaGZvdW50MSIsImEiOiJjbHU3a2Z3NGgwNzZhMmhwYml1Yng2dDM3In0.hB1Wb6OFmMYNv5gTBXAF-g';
 
 const Map = () => {
+  const [restaurants, setRestaurants] = useState([]);
+  const [map, setMap] = useState(null); // Define map state
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null); // Define selected restaurant state
+
   useEffect(() => {
-    const map = new mapboxgl.Map({
+    // Initialize map only after the DOM is ready
+    const initializedMap = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [0, 0], // Default center before obtaining user's location
-      zoom: 9
+      zoom: 10
     });
 
-    const addMarkers = (coordinates, popupContent = null) => {
-      new mapboxgl.Marker()
-        .setLngLat(coordinates)
-        .setPopup(popupContent)
-        .addTo(map);
+    setMap(initializedMap); // Set map state
+
+    // Clean up function to remove the map on unmount
+    return () => {
+      initializedMap.remove();
     };
+  }, []); // Empty dependency array to run only once on mount
+
+  useEffect(() => {
+    if (!map) return; // Check if map is initialized
 
     // Get user's current location
     navigator.geolocation.getCurrentPosition(
@@ -25,55 +34,53 @@ const Map = () => {
         const { latitude, longitude } = position.coords;
         map.setCenter([longitude, latitude]);
 
-        
-        // Add a marker for the user's current location
-        addMarkers([longitude, latitude], new mapboxgl.Popup().setHTML('<h3>Your Location</h3>'));
-
         // Search for nearby restaurants using Foursquare API
-        fetch(`https://api.foursquare.com/v2/venues/explore?client_id=VRTP2TAGBNTCOWTEETZQUZN2K5UXXDTNR05EHTNF4OLJS3O1&client_secret=2AUCMGX3KUYFNANS0CKZJYFKCSYREVRINHC5J4GP5K1UJMFZ
-
-        &v=20220315&ll=${latitude},${longitude}&query=restaurant&limit=10`)
-          .then(response => response.json())
-          .then(data => {
-            const restaurants = data.response.groups[0].items;
-            restaurants.forEach(restaurant => {
-              const { lat, lng } = restaurant.venue.location;
-              new mapboxgl.Marker()
-                .setLngLat([lng, lat])
-                .setPopup(new mapboxgl.Popup().setHTML(`<h3>${restaurant.venue.name}</h3>`))
-                .addTo(map);
-            });
-          })
-          .catch(error => {
-            console.error('Error searching for nearby restaurants:', error);
-          });
-
-
-        // Fetch nearby places using obtained location
         const options = {
           method: 'GET',
           headers: {
             accept: 'application/json',
-            Authorization: 'fsq3agO3EAI9tSf5SCoyd0czUKTwQZp22Tqy+f5fp1rR77M='
+            Authorization: 'fsq3DnUrdV1vhfKk1UJCE0RxJaF57v3+QbYEXpJH6w4TAas='
           }
         };
-        const url = `https://api.foursquare.com/v3/places/nearby?ll=${latitude},${longitude}`;
         
-        fetch(url, options)
+        fetch(`https://api.foursquare.com/v3/places/search?query=restaurant&ll=${latitude},${longitude}`, options)
           .then(response => response.json())
-          .then(response => console.log(response))
+          .then(response => {
+            setRestaurants(response.results);
+          })
           .catch(err => console.error(err));
-
-      },
-      error => {
-        console.error('Error getting user location:', error);
       }
     );
+  }, [map]); // Run this effect whenever map changes
 
-    return () => map.remove();
-  }, []);
+  const handleRestaurantClick = (restaurant) => {
+    setSelectedRestaurant(restaurant);
+  };
 
-  return <div id="map" style={{ width: '100%', height: '400px' }} />;
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+        <div id="map" style={{ flex: 1, height: '400px', paddingTop: '25px'}} />
+        <div style={{ marginLeft: '20px' }}>
+          <h2>Restaurants Near You:</h2>
+          <ul>
+            {restaurants.map((restaurant, index) => (
+              <li key={`${restaurant.name}-${index}`}>
+                <button onClick={() => handleRestaurantClick(restaurant)}>{restaurant.name}</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      {selectedRestaurant && (
+        <div>
+          <h2>{selectedRestaurant.name}</h2>
+          <p>Rating: {selectedRestaurant.rating || 'Not Available'}</p>
+          <p>Comments: {selectedRestaurant.comments || 'Not Available'}</p>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Map;
