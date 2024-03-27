@@ -5,19 +5,27 @@ import { CurrentUser } from '../contexts/CurrentUser'
 function Home() {
 
     const { currentUser } = useContext(CurrentUser)
-    console.log("in home.js: ", currentUser.username)
+    // console.log("in home.js: ", currentUser.username)
 
     let loggedIn = (
         <div>
-            <li>
-                {currentUser.username}
-            </li>
-            {/* <button onClick={handleLogout}>
+            <li>hello</li>
+        </div>
+    )
+
+    if (currentUser) {
+        loggedIn = (
+            <div>
+                <li>
+                    {currentUser.username}
+                </li>
+                {/* <button onClick={handleLogout}>
                 Logout
             </button> */}
-        </div>
+            </div>
 
-    )
+        )
+    }
 
     return (
         <main>
