@@ -1,16 +1,16 @@
 import { useContext } from 'react';
-// import { CurrentUser } from './contexts/CurrentUser';
+import { CurrentUser } from '../contexts/CurrentUser'
 
 
 function Home() {
 
-    // const { currentUser } = useContext(CurrentUser)
-    // console.log(currentUser.username)
+    const { currentUser } = useContext(CurrentUser)
+    console.log("in home.js: ", currentUser.username)
 
     let loggedIn = (
-        <div style={{ float: 'right' }}>
+        <div>
             <li>
-                {/* {currentUser.username} */}
+                {currentUser.username}
             </li>
             {/* <button onClick={handleLogout}>
                 Logout
