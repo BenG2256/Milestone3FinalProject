@@ -17,7 +17,7 @@ function Home() {
         loggedIn = (
             <div>
                 <li>
-                    {currentUser.username}
+                    Hello {currentUser.username}
                 </li>
                 {/* <button onClick={handleLogout}>
                 Logout
