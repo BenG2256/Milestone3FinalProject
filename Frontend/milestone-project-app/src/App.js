@@ -1,23 +1,24 @@
-import React from 'react';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import './scss/style.css';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import Home from './components/home';
+import Login from './components/user/login';
 
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
+import CurrentUserProvider from './contexts/CurrentUser'
 
 
 function App() {
-  return (
-    <div className="App">
 
-      <Router>
+
+  return (
+    <CurrentUserProvider>
+      <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={<Login />} />
+          <Route exact path="/home" element={<Home />} />
         </Routes>
-      </Router>
-    </div>
-  );
-}
+      </BrowserRouter>
+    </CurrentUserProvider>
+  )
+};
 
 export default App;

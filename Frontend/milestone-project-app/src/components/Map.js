@@ -42,7 +42,7 @@ const Map = () => {
             Authorization: 'fsq3DnUrdV1vhfKk1UJCE0RxJaF57v3+QbYEXpJH6w4TAas='
           }
         };
-        
+
         fetch(`https://api.foursquare.com/v3/places/search?query=restaurant&ll=${latitude},${longitude}`, options)
           .then(response => response.json())
           .then(response => {
@@ -53,32 +53,39 @@ const Map = () => {
     );
   }, [map]); // Run this effect whenever map changes
 
-  const handleRestaurantClick = (restaurant) => {
-    setSelectedRestaurant(restaurant);
+  // Function to handle showing popup for a restaurant
+  const showPopupForRestaurant = (restaurant) => {
+    console.log("Restaurant:", restaurant);
+    if (restaurant && restaurant.location && restaurant.location.lat && restaurant.location.lng) {
+      const popupContent = `
+      <h3>${restaurant.name}</h3>
+      <p>Rating: ${restaurant.rating || 'Not Available'}</p>
+      <p>Comments: ${restaurant.comments || 'Not Available'}</p>
+    `;
+      const coordinates = [restaurant.location.lng, restaurant.location.lat];
+      const newPopup = new mapboxgl.Popup().setLngLat(coordinates).setHTML(popupContent).addTo(map);
+      setPopup(newPopup);
+    } else {
+      console.error("Invalid restaurant location");
+    }
   };
+
+
+
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-        <div id="map" style={{ flex: 1, height: '400px', paddingTop: '25px'}} />
-        <div style={{ marginLeft: '20px' }}>
-          <h2>Restaurants Near You:</h2>
-          <ul>
-            {restaurants.map((restaurant, index) => (
-              <li key={`${restaurant.name}-${index}`}>
-                <button onClick={() => handleRestaurantClick(restaurant)}>{restaurant.name}</button>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div id="map" style={{ width: '100%', height: '400px', paddingTop: '25px' }} />
+      <div>
+        <h2>Restaurants Near You:</h2>
+        <ul>
+          {restaurants.map((restaurant, index) => (
+            <li key={`${restaurant.name}-${index}`}>
+              <button onClick={() => showPopupForRestaurant(restaurant)}>{restaurant.name}</button>
+            </li>
+          ))}
+        </ul>
       </div>
-      {selectedRestaurant && (
-        <div>
-          <h2>{selectedRestaurant.name}</h2>
-          <p>Rating: {selectedRestaurant.rating || 'Not Available'}</p>
-          <p>Comments: {selectedRestaurant.comments || 'Not Available'}</p>
-        </div>
-      )}
     </div>
   );
 };
