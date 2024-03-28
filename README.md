@@ -45,7 +45,7 @@ For ease of access, pgAdmin4 is recommended.
 
 - [React](https://react.dev/learn/installation)
 - [SASS](https://sass-lang.com/documentation/)
-- [Boottrap](https://getbootstrap.com/docs/5.3/getting-started/download/)
+- [Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/download/)
 
 ## App Setup - Backend
 
@@ -72,8 +72,9 @@ For ease of access, pgAdmin4 is recommended.
 -**_COMING SOON_**
 
 ## Features
-
--**Map:** Integrated map that pulls locations from an API using currently logged in User data. -**User Login:** Allows users to create and log into to personal accounts. -**Reviews and Ratins:** Share and read reviews and ratings for various locations.
+-**Map:** Integrated map that pulls locations from an API using currently logged in User data.
+-**User Login:** Allows users to create and log into to personal accounts.
+-**Reviews and Ratings:** Share and read reviews and ratings for various locations.
 
 ## Backend Routes
 
@@ -89,6 +90,14 @@ For ease of access, pgAdmin4 is recommended.
 | POST   | /users                                  | Create a user                   |
 | GET    | /authentication/profile                 | User profile                    |
 | POST   | /authentication/login                   | User Login                      |
+
+## Frontend Routes
+
+| Path  | Component                 | Purpose                                                     |
+| ----- | ------------------------- | ----------------------------------------------------------- |
+| /     | /components/user/login.js | User login page                                             |
+| /home | /components/home.js       | User home page                                              |
+| /map  | /components/Map.js        | Map page with nearby restuarants dependant on user location |
 
 ## Contributors
 
