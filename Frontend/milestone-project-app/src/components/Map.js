@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiemFjaGZvdW50MSIsImEiOiJjbHU3a2Z3NGgwNzZhMmhwYml1Yng2dDM3In0.hB1Wb6OFmMYNv5gTBXAF-g';
 
 const Map = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [map, setMap] = useState(null); // Define map state
-  const [popup, setPopup] = useState(null); // Define popup state
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null); // Define selected restaurant state
+  const [rating, setRating] = useState('');
+  const [comments, setComments] = useState('');
+
 
   useEffect(() => {
     // Initialize map only after the DOM is ready
@@ -17,6 +21,7 @@ const Map = () => {
       zoom: 10
     });
 
+
     setMap(initializedMap); // Set map state
 
     // Clean up function to remove the map on unmount
@@ -25,33 +30,30 @@ const Map = () => {
     };
   }, []); // Empty dependency array to run only once on mount
 
-  const addMarker = (coordinates, popupContent = null) => {
-    if (!map || !map.loaded()) return; // Check if map is initialized and loaded
 
-    const marker = new mapboxgl.Marker()
-      .setLngLat(coordinates)
-      .addTo(map);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const url = `http://localhost:3001/reviews/${selectedRestaurant.fsq_id}`;
+        const response = await fetch(url);
+        const data = await response.json();
 
-    // Open popup on marker click
-    marker.getElement().addEventListener('click', () => {
-      if (popup) {
-        popup.remove();
+        setComments(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-      const newPopup = new mapboxgl.Popup().setLngLat(coordinates).setHTML(popupContent).addTo(map);
-      setPopup(newPopup);
-    });
-  };
+    };
+    fetchData();
+  }, [selectedRestaurant]);
 
   useEffect(() => {
     if (!map) return; // Check if map is initialized
+
     // Get user's current location
     navigator.geolocation.getCurrentPosition(
       position => {
         const { latitude, longitude } = position.coords;
         map.setCenter([longitude, latitude]);
-
-        // Add a marker for the user's current location
-        addMarker([longitude, latitude], '<h3>Your Location</h3>');
 
         // Search for nearby restaurants using Foursquare API
         const options = {
@@ -66,59 +68,73 @@ const Map = () => {
           .then(response => response.json())
           .then(response => {
             setRestaurants(response.results);
-            // Add markers for each restaurant
-            response.results.forEach(restaurant => {
-              if (restaurant.location && restaurant.location.lat && restaurant.location.lng) {
-                const popupContent = `
-                  <h3>${restaurant.name}</h3>
-                  <p>Rating: ${restaurant.rating || 'Not Available'}</p>
-                  <p>Comments: ${restaurant.comments || 'Not Available'}</p>
-                `;
-                addMarker(
-                  [restaurant.location.lng, restaurant.location.lat],
-                  popupContent
-                );
-              }
-            });
           })
           .catch(err => console.error(err));
       }
     );
   }, [map]); // Run this effect whenever map changes
 
-  // Function to handle showing popup for a restaurant
-  const showPopupForRestaurant = (restaurant) => {
-    console.log("Restaurant:", restaurant);
-    if (restaurant && restaurant.location && restaurant.location.lat && restaurant.location.lng) {
-      const popupContent = `
-      <h3>${restaurant.name}</h3>
-      <p>Rating: ${restaurant.rating || 'Not Available'}</p>
-      <p>Comments: ${restaurant.comments || 'Not Available'}</p>
-    `;
-      const coordinates = [restaurant.location.lng, restaurant.location.lat];
-      const newPopup = new mapboxgl.Popup().setLngLat(coordinates).setHTML(popupContent).addTo(map);
-      setPopup(newPopup);
-    } else {
-      console.error("Invalid restaurant location");
-    }
+  const handleRestaurantClick = (restaurant) => {
+    setSelectedRestaurant(restaurant);
   };
 
+  const handleRatingChange = (e) => {
+    let value = parseInt(e.target.value);
+    if (isNaN(value) || value < 1) {
+      value = 1;
+    } else if (value > 10) {
+      value = 10;
+    }
+    setRating(value);
+  };
 
+  const handleCommentsChange = (e) => {
+    setComments(e.target.value);
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Submit rating and comments
+    console.log("Rating:", rating);
+    console.log("Comments:", comments);
+    // Reset rating and comments fields
+    setRating('');
+    setComments('');
+  };
+
+  console.log("location id from backend", comments[0].rating)
+  console.log("location id from backend", comments[0].rating_description)
+  console.log("location id from backend", comments[0].user_id)
 
   return (
-    <div>
-      <div id="map" style={{ width: '100%', height: '400px', paddingTop: '25px' }} />
-      <div>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div id="map" style={{ width: '90%', maxWidth: '800px', height: '400px', marginBottom: '20px' }} />
+      <div style={{ width: '90%', maxWidth: '800px', overflowX: 'auto' }}>
         <h2>Restaurants Near You:</h2>
-        <ul>
+        <ul style={{ listStyleType: 'none', padding: 0, display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
           {restaurants.map((restaurant, index) => (
-            <li key={`${restaurant.name}-${index}`}>
-              <button onClick={() => showPopupForRestaurant(restaurant)}>{restaurant.name}</button>
+            <li key={`${restaurant.name}-${index}`} style={{ marginRight: '10px' }}>
+              <button onClick={() => handleRestaurantClick(restaurant)}>{restaurant.name}</button>
             </li>
           ))}
         </ul>
       </div>
+      {selectedRestaurant && (
+        <div style={{ width: '90%', maxWidth: '800px' }}>
+          <h2>{selectedRestaurant.name}</h2>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="rating">Rating:</label>
+              <input type="number" id="rating" name="rating" value={rating} onChange={handleRatingChange} min="1" max="10" />
+            </div>
+            <div>
+              <label htmlFor="comments">Comments:</label>
+              <textarea id="comments" name="comments" value={comments} onChange={handleCommentsChange} />
+            </div>
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

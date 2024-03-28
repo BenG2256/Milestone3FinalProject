@@ -45,10 +45,6 @@ module.exports = (sequelize, DataTypes) => {
     location_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: "Locations",
-        key: "location_id"
-      },
     },
   },
     {
