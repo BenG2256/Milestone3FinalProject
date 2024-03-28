@@ -1,67 +1,104 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { CurrentUser } from "../../contexts/CurrentUser"
 
-function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+
+function SignUp() {
+    const [user, setUser] = useState({
+        username: '',
+        email: '',
+        city_state: '',
+        password: ''
+    });
+
     const [error, setError] = useState('');
-    const navigation = useNavigate()
-    const { setCurrentUser } = useContext(CurrentUser)
+    const navigation = useNavigate();
 
-    const handleSubmit = async (e) => {
+    async function handleSubmit(e) {
         e.preventDefault();
+
         try {
-            const response = await fetch('http://localhost:3001/authentication/login', {
+            const response = await fetch(`http://localhost:3001/users/`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify(user)
             });
 
-            const data = await response.json()
-
             if (!response.ok) {
-                throw new Error('Invalid email or password');
-            } else {
-                setCurrentUser(data.user)
-                localStorage.setItem('token', data.token)
-                navigation(`../home`)
-                console.log('Login successful', data.username);
+                const errorData = await response.json();
+                setError(errorData.message);
+                return;
             }
+
+            navigation(`/login`);
         } catch (error) {
-            setError(error.message);
+            console.error('Error:', error);
+            setError('An error occurred. Please try again.');
         }
-    };
+    }
 
     return (
-        <div className="login-container">
-            <h2>Login</h2>
-            {error && <div className="error-message">{error}</div>}
+        <main>
+            <h1>Sign Up</h1>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
+                <div className="row">
+                    <div className="col-sm-6 form-group">
+                        <label htmlFor="username">Username</label>
+                        <input
+                            required
+                            value={user.username}
+                            onChange={e => setUser({ ...user, username: e.target.value })}
+                            className="form-control"
+                            id="username"
+                            name="username"
+                        />
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label>Password:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
+                <div className="row">
+                    <div className="col-sm-6 form-group">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="email"
+                            required
+                            value={user.email}
+                            onChange={e => setUser({ ...user, email: e.target.value })}
+                            className="form-control"
+                            id="email"
+                            name="email"
+                        />
+                    </div>
+                    <div className="col-sm-6 form-group">
+                        <label htmlFor="city_state">City & State</label>
+                        <input
+                            required
+                            value={user.city_state}
+                            onChange={e => setUser({ ...user, city_state: e.target.value })}
+                            className="form-control"
+                            id="city_state"
+                            name="city_state"
+                        />
+                    </div>
+                    <div className="col-sm-6 form-group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            required
+                            value={user.password}
+                            onChange={e => setUser({ ...user, password: e.target.value })}
+                            className="form-control"
+                            id="password"
+                            name="password" />
+                    </div>
                 </div>
-                <button type="submit">Login</button>
+                <input
+                    className="btn btn-primary"
+                    type="submit"
+                    value="Sign Up" />
             </form>
-        </div>
+        </main>
     );
 }
 
-export default Login;
+export default SignUp;

@@ -9,17 +9,33 @@ const { Users } = db
 
 //create user route without encryption
 router.post('/', async (req, res) => {
-    let { password, ...rest } = req.body;
-    console.log("the password is: ", password)
+    try {
+        const { username, email, ...rest } = req.body;
 
-    const users = await Users.create({
-        ...rest,
-        password: password
-    })
-    res.json(users)
-    console.log("user creation password: ", password)
+        // Check if username or email already exists
+        const existingUser = await Users.findOne({
+            where: {
+                [db.Sequelize.Op.or]: [{ username }, { email }]
+            }
+        });
 
-})
+        if (existingUser) {
+            return res.status(400).json({ message: 'Username or email already exists' });
+        }
+
+        // If username and email are unique, create the user
+        const newUser = await Users.create({
+            username,
+            email,
+            ...rest
+        });
+
+        res.status(201).json(newUser);
+    } catch (error) {
+        console.error('Error creating user:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
 
 
 router.get('/', async (req, res) => {

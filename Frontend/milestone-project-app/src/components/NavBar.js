@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavItem from 'react-bootstrap/esm/NavItem';
 import Dropdown from 'react-bootstrap/Dropdown';
 import NavLink from 'react-bootstrap/NavLink';
-import { useState, useEffect, useContext } from 'react'
+import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CurrentUser } from '../contexts/CurrentUser'
 
@@ -18,7 +18,7 @@ function NavBar() {
     let loginActions = (
         <>
             <Nav.Item>
-                <Nav.Link href="" onClick={() => navigation("/sign-up")}>
+                <Nav.Link href="" onClick={() => navigation("/signup")}>
                     Sign Up
                 </Nav.Link>
             </Nav.Item>
