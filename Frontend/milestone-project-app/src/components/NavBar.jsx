@@ -8,7 +8,7 @@ function NavBar() {
         <div>
             <header className="App-header">
                 <a href="/">
-                    <h1>Map App</h1>
+                    <h1>Rate A Restaurant</h1>
                 </a>
                 <Navbar expand="lg" className="bg-body-tertiary">
                 <Container>
