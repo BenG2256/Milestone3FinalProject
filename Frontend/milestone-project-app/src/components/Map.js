@@ -7,6 +7,8 @@ const Map = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [map, setMap] = useState(null); // Define map state
   const [selectedRestaurant, setSelectedRestaurant] = useState(null); // Define selected restaurant state
+  const [rating, setRating] = useState('');
+  const [comments, setComments] = useState('');
 
   useEffect(() => {
     // Initialize map only after the DOM is ready
@@ -57,26 +59,57 @@ const Map = () => {
     setSelectedRestaurant(restaurant);
   };
 
+  const handleRatingChange = (e) => {
+    let value = parseInt(e.target.value);
+    if (isNaN(value) || value < 1) {
+      value = 1;
+    } else if (value > 10) {
+      value = 10;
+    }
+    setRating(value);
+  };
+
+  const handleCommentsChange = (e) => {
+    setComments(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Submit rating and comments
+    console.log("Rating:", rating);
+    console.log("Comments:", comments);
+    // Reset rating and comments fields
+    setRating('');
+    setComments('');
+  };
+
   return (
-    <div>
-      <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-        <div id="map" style={{ flex: 1, height: '400px', paddingTop: '25px'}} />
-        <div style={{ marginLeft: '20px' }}>
-          <h2>Restaurants Near You:</h2>
-          <ul>
-            {restaurants.map((restaurant, index) => (
-              <li key={`${restaurant.name}-${index}`}>
-                <button onClick={() => handleRestaurantClick(restaurant)}>{restaurant.name}</button>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div id="map" style={{ width: '90%', maxWidth: '800px', height: '400px', marginBottom: '20px' }} />
+      <div style={{ width: '90%', maxWidth: '800px', overflowX: 'auto' }}>
+        <h2>Restaurants Near You:</h2>
+        <ul style={{ listStyleType: 'none', padding: 0, display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+          {restaurants.map((restaurant, index) => (
+            <li key={`${restaurant.name}-${index}`} style={{ marginRight: '10px' }}>
+              <button onClick={() => handleRestaurantClick(restaurant)}>{restaurant.name}</button>
+            </li>
+          ))}
+        </ul>
       </div>
       {selectedRestaurant && (
-        <div>
+        <div style={{ width: '90%', maxWidth: '800px' }}>
           <h2>{selectedRestaurant.name}</h2>
-          <p>Rating: {selectedRestaurant.rating || 'Not Available'}</p>
-          <p>Comments: {selectedRestaurant.comments || 'Not Available'}</p>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="rating">Rating:</label>
+              <input type="number" id="rating" name="rating" value={rating} onChange={handleRatingChange} min="1" max="10" />
+            </div>
+            <div>
+              <label htmlFor="comments">Comments:</label>
+              <textarea id="comments" name="comments" value={comments} onChange={handleCommentsChange} />
+            </div>
+            <button type="submit">Submit</button>
+          </form>
         </div>
       )}
     </div>
@@ -84,3 +117,4 @@ const Map = () => {
 };
 
 export default Map;
+
