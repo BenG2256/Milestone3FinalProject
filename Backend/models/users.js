@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
     static associate({ Reviews }) {
       Users.hasMany(Reviews, {
-        foreignKey: 'user_id'
+        as: 'author',
+        foreignKey: 'author_id'
       });
     }
     // Hash password before saving to the database
@@ -16,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         this.password = await bcrypt.hash(this.password, 10);
       }
     }
-    
+
   }
 
   Users.init({

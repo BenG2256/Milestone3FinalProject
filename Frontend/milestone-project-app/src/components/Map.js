@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import CommentCard from './commentCard'
 import mapboxgl from 'mapbox-gl';
 
 
@@ -9,7 +10,7 @@ const Map = () => {
   const [map, setMap] = useState(null); // Define map state
   const [selectedRestaurant, setSelectedRestaurant] = useState(null); // Define selected restaurant state
   const [rating, setRating] = useState('');
-  const [comments, setComments] = useState('');
+  const [comment, setComment] = useState('');
 
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const Map = () => {
     };
   }, []); // Empty dependency array to run only once on mount
 
-
+  //get comment
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,13 +39,48 @@ const Map = () => {
         const response = await fetch(url);
         const data = await response.json();
 
-        setComments(data);
+        setComment(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
   }, [selectedRestaurant]);
+
+
+
+
+
+  let comments = (
+    <h3 className="inactive">
+      No comments yet!
+    </h3>
+  )
+  let reviews = (
+    <h3 className="inactive">
+      Not yet rated
+    </h3>
+  )
+  if (comment.length) {
+    let sumRatings = comment.reduce((tot, c) => {
+      return tot + c.stars
+    }, 0)
+    let averageRating = Math.round(sumRatings / comment.length)
+    let stars = ''
+    for (let i = 0; i < averageRating; i++) {
+      stars += '⭐️'
+    }
+    reviews = (
+      <h3>
+        {stars} stars
+      </h3>
+    )
+    comments = comment.map(comment => {
+      return (
+        <CommentCard key={comment.review_id} comment={comment} />
+      )
+    })
+  }
 
   useEffect(() => {
     if (!map) return; // Check if map is initialized
@@ -89,7 +125,7 @@ const Map = () => {
   };
 
   const handleCommentsChange = (e) => {
-    setComments(e.target.value);
+    setComment(e.target.value);
   };
 
   const handleSubmit = (e) => {
@@ -99,12 +135,10 @@ const Map = () => {
     console.log("Comments:", comments);
     // Reset rating and comments fields
     setRating('');
-    setComments('');
+    setComment('');
   };
 
-  console.log("location id from backend", comments[0].rating)
-  console.log("location id from backend", comments[0].rating_description)
-  console.log("location id from backend", comments[0].user_id)
+
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -135,6 +169,10 @@ const Map = () => {
           </form>
         </div>
       )}
+      <h2>Comments</h2>
+      <div className="row">
+        {comments}
+      </div>
     </div>
   );
 };

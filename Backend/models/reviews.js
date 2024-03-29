@@ -9,17 +9,19 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ Users, Locations }) {
+    static associate({ Users }) {
       // define association here
       Reviews.belongsTo(Users, {
-        foreignKey: "user_id",
+        as: 'author',
+        foreignKey: 'author_id'
       });
-
-      Reviews.belongsTo(Locations, {
-        foreignKey: "location_id",
-      })
     }
   }
+  //   Reviews.belongsTo(Locations, {
+  //     foreignKey: "location_id",
+  //   })
+  // }
+  // }
   Reviews.init({
     review_id: {
       type: DataTypes.INTEGER,
@@ -34,16 +36,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
 
     },
-    user_id: {
+    // was user_id, not author_id
+    author_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: "Users",
-        key: "user_id"
-      },
     },
     location_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
@@ -54,4 +53,4 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false
     });
   return Reviews;
-};
+}

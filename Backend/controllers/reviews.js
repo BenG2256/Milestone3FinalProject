@@ -19,7 +19,13 @@ router.get('/', async (req, res) => {
 // get reviews for specific location
 router.get('/:location_id', async (req, res) => {
     let location_id = req.params.location_id;
-    const review = await Reviews.findAll({ where: { location_id } });
+    const review = await Reviews.findAll({
+        where: { location_id },
+        include: {
+            association: 'author',
+            include: 'author'
+        }
+    });
     res.status(200).json(review)
 })
 
