@@ -14,7 +14,7 @@ function NavBar() {
                 <Container>
                     <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link className='App-header-text' href="/login">Login</Nav.Link>
+                        <Nav.Link id='login' className='App-header-text' href="/login">Login</Nav.Link>
                     </Nav>
                     </Navbar.Collapse>
                 </Container>

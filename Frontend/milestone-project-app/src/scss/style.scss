@@ -6,13 +6,14 @@ $dark-brown: #805f26;
 
 
 * {
-    color: $brown;
     text-decoration: none;
+    font-family: Tahoma, Verdana, sans-serif;
 }
 
-
-
-
+.App-body {
+    background-color: $light-brown;
+    padding-bottom: 50px;
+}
 
 
 //navbar styling
@@ -22,26 +23,32 @@ id - App-header (container)
 class - App-header-text
 */
 
-/*App-header
-    background-color: brown
-*/
+#App-header {
+    background-color: $brown;
+    margin-bottom: 20px;
+    padding-top: 10px;
 
-/* App-header-text
-    text-decoration: none
-    text color: light brown
-    hover : white color
-    text-align: left
-*/
+    header {
+        display: flex;
+        text-align: left;
+        justify-content: space-around;
+    }
 
+    #login {
+        padding-top: 10px;
+    }
 
+}
 
+.App-header-text {
+    color: $light-brown;
+    padding-left: 10px;
+    padding-right: 10px;
 
-//index page styling
-
-/* CLASSNAMES:
-id - 
-class - App-body(container)
-*/
+    &:hover {
+        color: $white;
+    }
+}
 
 
 
@@ -57,17 +64,25 @@ class - login-container
         App-body
 */
 
-/*form-container
-    background-color: white
-*/
+.login-container {
+    text-align: center;
 
-/*login-header
-    text color: dark brown
-*/
+    #form-container {
+        background-color: $white;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        margin-left: 30%;
+        margin-right: 30%;
 
-/*login-label
-    text color: brown
-*/
+        .form-group {
+            margin: 20px;
+        }
+    }
+    .login-label {
+        color: $brown;
+    }
+
+}
 
 
 
@@ -80,11 +95,9 @@ class -
 element - h2
 */
 
-/* h2
+h2 {
     color: $brown;
-    text-decoration: none;
-*/
-
+}
 
 
 
@@ -95,12 +108,7 @@ id -
 element - button
 class - 
 */
-/* button
-    text color: dark brown
-*/
 
-
-#App-header , .App-body {
-    background-color: $light-brown;
+button {
+    color: $dark-brown
 }
-
