@@ -63,7 +63,7 @@ const Map = () => {
   )
   if (comment.length) {
     let sumRatings = comment.reduce((tot, c) => {
-      return tot + c.stars
+      return tot + c.rating
     }, 0)
     let averageRating = Math.round(sumRatings / comment.length)
     let stars = ''
@@ -72,7 +72,7 @@ const Map = () => {
     }
     reviews = (
       <h3>
-        {stars} stars
+        {stars}
       </h3>
     )
     comments = comment.map(comment => {
@@ -156,6 +156,7 @@ const Map = () => {
       {selectedRestaurant && (
         <div style={{ width: '90%', maxWidth: '800px' }}>
           <h2>{selectedRestaurant.name}</h2>
+          {reviews}
           <form onSubmit={handleSubmit}>
             <div>
               <label htmlFor="rating">Rating:</label>
@@ -167,12 +168,13 @@ const Map = () => {
             </div>
             <button type="submit">Submit</button>
           </form>
+          <div className="row">
+            {comments}
+          </div>
         </div>
+
       )}
-      <h2>Comments</h2>
-      <div className="row">
-        {comments}
-      </div>
+
     </div>
   );
 };

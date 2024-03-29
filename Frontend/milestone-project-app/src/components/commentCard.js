@@ -23,7 +23,7 @@ function CommentCard({ comment, onDelete }) {
             <h3>
                 <strong>- {comment.author.username}</strong>
             </h3>
-            <h4>Rating: {comment.stars}</h4>
+            <h4>Rating: {comment.rating}</h4>
             {deleteButton}
         </div>
     )
