@@ -38,11 +38,11 @@ function Login() {
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
+      <h2 id='login-header'>Login</h2>
       {error && <div className="error-message">{error}</div>}
-      <form onSubmit={handleSubmit}>
+      <form id='form-container' onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Email:</label>
+          <label className='login-label'>Email:</label>
           <input
             type="email"
             value={email}
@@ -51,7 +51,7 @@ function Login() {
           />
         </div>
         <div className="form-group">
-          <label>Password:</label>
+          <label className='login-label'>Password:</label>
           <input
             type="password"
             value={password}

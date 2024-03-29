@@ -1,1 +1,59 @@
-/*# sourceMappingURL=style.css.map */
+* {
+  color: #d3ac63;
+  text-decoration: none;
+}
+
+/*CLASSNAMES:
+id - App-header (container)
+class - App-header-text
+*/
+/*App-header
+    background-color: brown
+*/
+/* App-header-text
+    text-decoration: none
+    text color: light brown
+    hover : white color
+    text-align: left
+*/
+/* CLASSNAMES:
+id - 
+class - App-body(container)
+*/
+/* CLASSNAMES:
+id - form-container
+    login-header
+class - login-container
+        form-group
+        login-label
+        App-body
+*/
+/*form-container
+    background-color: white
+*/
+/*login-header
+    text color: dark brown
+*/
+/*login-label
+    text color: brown
+*/
+/* CLASSNAMES:
+id - 
+class - 
+element - h2
+*/
+/* h2
+    color: $brown;
+    text-decoration: none;
+*/
+/* CLASSNAMES:
+id - 
+element - button
+class - 
+*/
+/* button
+    text color: dark brown
+*/
+#App-header, .App-body {
+  background-color: #fff2da;
+}/*# sourceMappingURL=style.css.map */
