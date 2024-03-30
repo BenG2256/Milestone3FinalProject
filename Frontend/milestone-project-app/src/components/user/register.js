@@ -39,65 +39,68 @@ function SignUp() {
     }
 
     return (
-        <main>
-            <h1>Sign Up</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <div className="row">
-                    <div className="col-sm-6 form-group">
-                        <label htmlFor="username">Username</label>
-                        <input
-                            required
-                            value={user.username}
-                            onChange={e => setUser({ ...user, username: e.target.value })}
-                            className="form-control"
-                            id="username"
-                            name="username"
-                        />
+        <div className='App-body'>
+            <main className="login-container">
+                <h2>Sign Up</h2>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                <form id='form-container' onSubmit={handleSubmit}>
+                    <div className="row">
+                        <div className="form-group">
+                            <label htmlFor="username">Username</label>
+                            <input
+                                required
+                                value={user.username}
+                                onChange={e => setUser({ ...user, username: e.target.value })}
+                                className="form-control"
+                                id="username"
+                                name="username"
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-sm-6 form-group">
-                        <label htmlFor="email">Email</label>
-                        <input
-                            type="email"
-                            required
-                            value={user.email}
-                            onChange={e => setUser({ ...user, email: e.target.value })}
-                            className="form-control"
-                            id="email"
-                            name="email"
-                        />
+                    <div className="row">
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                required
+                                value={user.email}
+                                onChange={e => setUser({ ...user, email: e.target.value })}
+                                className="form-control"
+                                id="email"
+                                name="email"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="city_state">City & State</label>
+                            <input
+                                required
+                                value={user.city_state}
+                                onChange={e => setUser({ ...user, city_state: e.target.value })}
+                                className="form-control"
+                                id="city_state"
+                                name="city_state"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                type="password"
+                                required
+                                value={user.password}
+                                onChange={e => setUser({ ...user, password: e.target.value })}
+                                className="form-control"
+                                id="password"
+                                name="password" />
+                        </div>
                     </div>
-                    <div className="col-sm-6 form-group">
-                        <label htmlFor="city_state">City & State</label>
-                        <input
-                            required
-                            value={user.city_state}
-                            onChange={e => setUser({ ...user, city_state: e.target.value })}
-                            className="form-control"
-                            id="city_state"
-                            name="city_state"
-                        />
-                    </div>
-                    <div className="col-sm-6 form-group">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            type="password"
-                            required
-                            value={user.password}
-                            onChange={e => setUser({ ...user, password: e.target.value })}
-                            className="form-control"
-                            id="password"
-                            name="password" />
-                    </div>
-                </div>
-                <input
-                    className="btn btn-primary"
-                    type="submit"
-                    value="Sign Up" />
-            </form>
-        </main>
+                    <input
+                        id='button'
+                        className="btn btn-primary"
+                        type="submit"
+                        value="Sign Up" />
+                </form>
+            </main>
+        </div>
     );
 }
 

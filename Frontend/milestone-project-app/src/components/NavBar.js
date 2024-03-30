@@ -15,12 +15,12 @@ function NavBar() {
     let loginActions = (
         <>
             <Nav.Item>
-                <Nav.Link href="" onClick={() => navigation("/signup")}>
+                <Nav.Link className='App-header-text' href="" onClick={() => navigation("/signup")}>
                     Sign Up
                 </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-                <Nav.Link href="" onClick={() => navigation("/login")}>
+                <Nav.Link className='App-header-text' href="" onClick={() => navigation("/login")}>
                     Login
                 </Nav.Link>
             </Nav.Item>
@@ -38,7 +38,7 @@ function NavBar() {
                 <Dropdown.Toggle as={NavLink}>{currentUser.username}</Dropdown.Toggle>
                 <Dropdown.Menu>
                     <Dropdown.Item>
-                        <Nav.Link onClick={handleLogout}>
+                        <Nav.Link className='App-header-text' onClick={handleLogout}>
                             Logout
                         </Nav.Link>
                     </Dropdown.Item>
@@ -62,7 +62,7 @@ function NavBar() {
                             <Nav className="me-auto">
                                 {loginActions}
                                 <Nav.Item>
-                                    <Nav.Link href="" onClick={() => navigation("/")}>Home</Nav.Link>
+                                    <Nav.Link className='App-header-text' href="" onClick={() => navigation("/")}>Home</Nav.Link>
                                 </Nav.Item>
                             </Nav>
                         </Navbar.Collapse>

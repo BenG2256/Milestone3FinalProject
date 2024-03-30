@@ -37,31 +37,35 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      {error && <div className="error-message">{error}</div>}
-      <form id='form-container' onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label className='login-label'>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label className='login-label'>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
+    <div className='App-body'>
+      <main className="login-container">
+        <h2>Login</h2>
+        {error && <div className="error-message">{error}</div>}
+        <form id='form-container' onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label className='login-label'>Email:</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label className='login-label'>Password:</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit">Login</button>
+        </form>
+      </main>
     </div>
+
+
   );
 }
 
