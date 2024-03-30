@@ -1,1 +1,79 @@
-/*# sourceMappingURL=style.css.map */
+* {
+  text-decoration: none;
+  font-family: Tahoma, Verdana, sans-serif;
+}
+
+.App-body {
+  background-color: #fff2da;
+  padding-bottom: 50px;
+}
+
+/*CLASSNAMES:
+id - App-header (container)
+class - App-header-text
+*/
+#App-header {
+  background-color: #d3ac63;
+  margin-bottom: 20px;
+  padding-top: 10px;
+}
+#App-header header {
+  display: flex;
+  text-align: left;
+  justify-content: space-around;
+}
+#App-header #login {
+  padding-top: 10px;
+}
+
+.App-header-text {
+  color: #fff2da;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.App-header-text:hover {
+  color: #ffffff;
+}
+
+/* CLASSNAMES:
+id - form-container
+    login-header
+class - login-container
+        form-group
+        login-label
+        App-body
+*/
+.login-container {
+  text-align: center;
+}
+.login-container #form-container {
+  background-color: #ffffff;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-left: 30%;
+  margin-right: 30%;
+}
+.login-container #form-container .form-group {
+  margin: 20px;
+}
+.login-container .login-label {
+  color: #d3ac63;
+}
+
+/* CLASSNAMES:
+id - 
+class - 
+element - h2
+*/
+h2 {
+  color: #d3ac63;
+}
+
+/* CLASSNAMES:
+id - 
+element - button
+class - 
+*/
+button {
+  color: #805f26;
+}/*# sourceMappingURL=style.css.map */

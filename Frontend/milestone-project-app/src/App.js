@@ -1,26 +1,23 @@
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+import React from 'react';
 import './scss/style.css';
-import Home from './components/home';
-import Login from './components/user/login';
-import Map from './components/Map';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 
-import CurrentUserProvider from './contexts/CurrentUser'
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
 
 
 function App() {
-
-
   return (
-    <CurrentUserProvider>
-      <BrowserRouter>
+    <div className="App-container">
+
+      <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route exact path="/home" element={<Home />} />
-          <Route exact path='/map' element={<Map />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
-      </BrowserRouter>
-    </CurrentUserProvider>
-  )
-};
+      </Router>
+    </div>
+  );
+}
 
 export default App;
