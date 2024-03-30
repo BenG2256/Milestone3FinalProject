@@ -1,9 +1,21 @@
-# Full Stack Monolith: Should You Eat?
+# Full Stack Monolith: Rate a Restuarant
 
 - PostrgeSQL Express Node React full-stack application, integrates a React frontend with a Node.js / Express.js Backend
   to create an application that allows users to view nearby locations as well as read and write reviews.
 
 - [General Information](#general-info)
+- [Application Previews](#application-previews)
+- [Backend Technologies](#technologies---backend)
+- [Frontend Technologies](#technologies---frontend)
+- [Backend Setup](#app-setup---backend)
+- [Frontend Setup](#app-setup---frontend)
+- [Deployment](#deployment)
+- [Features](#features)
+- [Backend Routes](#backend-routes)
+- [Frontend Routes](#frontend-routes)
+- [Contributers](#contributors)
+- [Database Diagram](#database-diagram)
+- [Known Issues](#bugstechnical-issues)
 
 ## General Information
 
@@ -72,9 +84,9 @@ For ease of access, pgAdmin4 is recommended.
 -**_COMING SOON_**
 
 ## Features
--**Map:** Integrated map that pulls locations from an API using currently logged in User data.
--**User Login:** Allows users to create and log into to personal accounts.
--**Reviews and Ratings:** Share and read reviews and ratings for various locations.
+- **Map:** Integrated map that pulls locations from an API using currently logged in User data.
+- **User Login:** Allows users to create and log into to personal accounts.
+- **Reviews and Ratings:** Share and read reviews and ratings for various locations.
 
 ## Backend Routes
 
@@ -109,3 +121,8 @@ For ease of access, pgAdmin4 is recommended.
 ## Database Diagram
 
 ![Screenshot of the first database diagram](/Frontend/public/DatabaseDiagram.png)
+
+## Bugs/Technical Issues
+
+- **Frontend** 
+- Map not showing markers for user location or restaurant locations
