@@ -229,6 +229,7 @@ const Map = () => {
           {reviews}
           <ReviewForm />
           <div className="row">
+            <h2>Comments</h2>
             {comments}
           </div>
         </div>
