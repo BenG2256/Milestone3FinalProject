@@ -85,6 +85,9 @@ const Map = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ width: '100%', background: '#f8d7da', color: '#721c24', textAlign: 'center', padding: '10px 0' }}>
+        We are aware of some bugs in the app and are working diligently to get it resolved. We thank you for your patience -Dev Team
+      </div>
       <div id="map" style={{ width: '90%', maxWidth: '800px', height: '400px', marginBottom: '20px' }} />
       <div style={{ width: '90%', maxWidth: '800px', overflowX: 'auto' }}>
         <h2>Restaurants Near You:</h2>
@@ -117,4 +120,3 @@ const Map = () => {
 };
 
 export default Map;
-
