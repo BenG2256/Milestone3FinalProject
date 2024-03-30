@@ -126,3 +126,9 @@ For ease of access, pgAdmin4 is recommended.
 
 - **Frontend** 
 - Map not showing markers for user location or restaurant locations
+
+## Color Pallete Sheets for the Frontend
+
+![Login page](<Frontend/milestone-project-app/src/img/rate-a-restaurant color pallete LOGIN.png>)
+
+![Index Page](<Frontend/milestone-project-app/src/img/rate-a-restaurant color pallete INDEX.png>)
