@@ -7,6 +7,9 @@ import NavBar from './components/NavBar'
 import CurrentUserProvider from './contexts/CurrentUser'
 import SignUp from './components/user/register'
 
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage'
+
 
 function App() {
   return (
@@ -14,14 +17,18 @@ function App() {
       <BrowserRouter>
         <NavBar />
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route exact path="/home" element={<Home />} />
-          <Route exact path='/map' element={<Map />} />
-          <Route exact path='/signup' element={<SignUp />} />
+          <Route path='/' element={<HomePage />} />
+          <Route path='/login' element={<LoginPage />} />
         </Routes>
       </BrowserRouter>
     </CurrentUserProvider>
   )
 };
 
+/*
+          <Route path="/login" element={<Login />} />
+          <Route exact path="/home" element={<Home />} />
+          <Route exact path='/map' element={<Map />} />
+          <Route exact path='/signup' element={<SignUp />} />
+*/
 export default App;
