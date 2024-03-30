@@ -5,20 +5,21 @@ const { User } = db;
 
 async function defineCurrentUser(req, res, next) {
     try {
-        const authHeader = req.headers.authorization;
-        if (authHeader && authHeader.startsWith('Bearer ')) {
-            const token = authHeader.split(' ')[1];
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            const { user_id } = decoded;
-            const user = await User.findOne({ where: { user_id: user_id } });
-            req.currentUser = user;
-        } else {
-            req.currentUser = null;
+        const [method, token] = req.headers.authorization.split(' ')
+        if (method == 'Bearer') {
+            const result = await jwt.decode(process.env.JWT_SECRET, token)
+            const { user_id } = result.value
+            let user = await User.findOne({
+                where: {
+                    user_id: user_id
+                }
+            })
+            req.currentUser = user
         }
-        next();
+        next()
     } catch (err) {
-        req.currentUser = null;
-        next(err);
+        req.currentUser = null
+        next()
     }
 }
 

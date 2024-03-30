@@ -40,7 +40,7 @@ router.get('/:location_id/review/:review_id', async (req, res) => {
 })
 
 // post a review
-router.post('/:location_id/review', async (req, res) => {
+router.post('/:location_id', async (req, res) => {
     try {
         const { rating, rating_description } = req.body;
 
@@ -54,21 +54,18 @@ router.post('/:location_id/review', async (req, res) => {
             return res.status(400).json({ error: 'Invalid rating value' });
         }
 
-        if (!req.currentUser) {
-            return res.status(404).json({ message: `You must be logged in to leave a rant or rave.` })
-        }
+        // if (!req.currentUser) {
+        //     return res.status(404).json({ message: `You must be logged in to leave a rant or rave.` })
+        // }
 
-        const comment = await Comment.create({
+        const comment = new Reviews({
             ...req.body,
-            author_id: req.currentUser.user_id,
-            location_id: location_id
+            // author_id: author_id,
+            // location_id: location_id
         })
-        console.log("comment details ", comment)
+        // console.log("comment details ", comment)
 
-        res.send({
-            ...comment.toJSON(),
-            author: req.currentUser
-        })
+        await comment.save()
 
         res.status(200).json({ message: 'Review submitted successfully' });
     } catch (error) {

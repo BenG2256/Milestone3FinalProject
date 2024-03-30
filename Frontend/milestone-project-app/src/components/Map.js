@@ -2,7 +2,8 @@ import React, { useEffect, useState, useContext } from 'react';
 import CommentCard from './commentCard'
 import mapboxgl from 'mapbox-gl';
 import { CurrentUser } from '../contexts/CurrentUser'
-import ReviewForm from './NewCommentForm'
+
+// import ReviewForm from './NewCommentForm'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiemFjaGZvdW50MSIsImEiOiJjbHU3a2Z3NGgwNzZhMmhwYml1Yng2dDM3In0.hB1Wb6OFmMYNv5gTBXAF-g';
 
@@ -11,8 +12,14 @@ const Map = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [map, setMap] = useState(null); // Define map state
   const [selectedRestaurant, setSelectedRestaurant] = useState(null); // Define selected restaurant state
-  // const [rating, setRating] = useState('');
+  const [ratings, setRatings] = useState(
+    {
+      rating: 5,
+      rating_description: 'enter comment',
+    }
+  );
   const [comment, setComment] = useState('');
+
 
 
   useEffect(() => {
@@ -51,21 +58,38 @@ const Map = () => {
 
   //creat review function 
 
-  async function createReview(reviewAttributes) {
-    const response = await fetch(`http://localhost:3001/reviews/${selectedRestaurant.fsq_id}/review`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      },
-      body: JSON.stringify(reviewAttributes)
-    })
-    const review = await response.json()
-    setComment({
-      review: review
-    })
-  }
+  async function handleSubmit(e) {
 
+    try {
+      // debugger
+      e.preventDefault(e)
+      const formData = {
+        // Construct the data object from the form inputs
+        rating: ratings.rating,
+        rating_description: ratings.rating_description,
+        location_id: selectedRestaurant.fsq_id,
+        author_id: currentUser.user_id
+        // Add other necessary fields here
+      };
+      // Call the API with formData
+      const response = await fetch(`http://localhost:3001/reviews/${selectedRestaurant.fsq_id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(formData)
+      });
+      const review = await response.json()
+      setRatings({
+        ...ratings,
+        reviews: review
+      })
+      console.log("review: ", review)
+    } catch (error) {
+      console.error("Error posting data:", error);
+    }
+  }
 
 
   async function deleteReview(deletedReview) {
@@ -161,9 +185,35 @@ const Map = () => {
         <div style={{ width: '90%', maxWidth: '800px' }}>
           <h2>{selectedRestaurant.name}</h2>
           {reviews}
-          <ReviewForm
-            reviews={reviews}
-            onSubmit={createReview} />
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="rating">Rating:</label>
+              <input
+                type="number"
+                id="rating"
+                name="rating"
+                value={ratings.rating}
+                onChange={e => setRatings({ ...ratings, rating: e.target.value })}
+                min="1"
+                max="10" />
+            </div>
+            <div>
+              <label htmlFor="rating_description">Comments:</label>
+              <textarea
+                id="rating_description"
+                name="rating_description"
+
+                value={ratings.rating_description}
+                onChange={e => setRatings({ ...ratings, rating_description: e.target.value })} />
+            </div>
+            <div>
+              <label htmlFor='location_id' hidden />
+              <input id="location_id" name="location_id" value={selectedRestaurant.fsq_id} disabled />
+              <label htmlFor="user_id" />
+              <input id="user_id" name="user_id" value={currentUser.user_id} disabled />
+            </div>
+            <button type="submit">Submit</button>
+          </form>
           <div className="row">
             {comments}
           </div>
