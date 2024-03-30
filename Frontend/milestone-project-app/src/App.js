@@ -9,8 +9,6 @@ import SignUp from './components/user/register'
 
 
 function App() {
-
-
   return (
     <CurrentUserProvider>
       <BrowserRouter>

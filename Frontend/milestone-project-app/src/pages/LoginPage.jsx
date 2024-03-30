@@ -4,7 +4,7 @@ import Login from "../components/login"
 
 function LoginPage() {
     return (
-        <div>
+        <div className="App-body">
             <NavBar />
             <Login />
         </div>

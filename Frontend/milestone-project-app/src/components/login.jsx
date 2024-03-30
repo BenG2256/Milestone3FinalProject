@@ -1,13 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { CurrentUser } from "../../contexts/CurrentUser"
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigation = useNavigate()
-  const { setCurrentUser } = useContext(CurrentUser)
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,12 +23,14 @@ function Login() {
       if (!response.ok) {
         throw new Error('Invalid email or password');
       } else {
-        setCurrentUser(data.user)
+        // setCurrentUser(data.user)
         localStorage.setItem('token', data.token)
-        navigation(`../home`)
-        console.log('Login successful', data.user);
-        console.log("token ", data.token)
+        console.log('Login successful');
       }
+      console.log('Login successful');
+      //insert reroute to the homepage here
+      navigate('/');
+
     } catch (error) {
       setError(error.message);
     }

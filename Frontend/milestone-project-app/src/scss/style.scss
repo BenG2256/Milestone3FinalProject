@@ -1,0 +1,114 @@
+//color pallete to use
+$brown: #d3ac63;
+$light-brown: #fff2da;
+$white: #ffffff;
+$dark-brown: #805f26;
+
+
+* {
+    text-decoration: none;
+    font-family: Tahoma, Verdana, sans-serif;
+}
+
+.App-body {
+    background-color: $light-brown;
+    padding-bottom: 50px;
+}
+
+
+//navbar styling
+
+/*CLASSNAMES:
+id - App-header (container)
+class - App-header-text
+*/
+
+#App-header {
+    background-color: $brown;
+    margin-bottom: 20px;
+    padding-top: 10px;
+
+    header {
+        display: flex;
+        text-align: left;
+        justify-content: space-around;
+    }
+
+    #login {
+        padding-top: 10px;
+    }
+
+}
+
+.App-header-text {
+    color: $light-brown;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    &:hover {
+        color: $white;
+    }
+}
+
+
+
+
+//login page styling
+
+/* CLASSNAMES:
+id - form-container
+    login-header
+class - login-container
+        form-group
+        login-label
+        App-body
+*/
+
+.login-container {
+    text-align: center;
+
+    #form-container {
+        background-color: $white;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        margin-left: 30%;
+        margin-right: 30%;
+
+        .form-group {
+            margin: 20px;
+        }
+    }
+    .login-label {
+        color: $brown;
+    }
+
+}
+
+
+
+
+//text styling
+
+/* CLASSNAMES:
+id - 
+class - 
+element - h2
+*/
+
+h2 {
+    color: $brown;
+}
+
+
+
+//button styling
+
+/* CLASSNAMES:
+id - 
+element - button
+class - 
+*/
+
+button {
+    color: $dark-brown
+}
