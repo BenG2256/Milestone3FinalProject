@@ -167,6 +167,43 @@ const Map = () => {
   };
 
 
+  function ReviewForm() {
+    if (!currentUser) {
+      return <p>You must be logged in to review</p>
+    } else {
+      return (
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="rating">Rating:</label>
+            <input
+              type="number"
+              id="rating"
+              name="rating"
+              value={ratings.rating}
+              onChange={e => setRatings({ ...ratings, rating: e.target.value })}
+              min="1"
+              max="10" />
+          </div>
+          <div>
+            <label htmlFor="rating_description">Comments:</label>
+            <textarea
+              id="rating_description"
+              name="rating_description"
+              value={ratings.rating_description}
+              onChange={e => setRatings({ ...ratings, rating_description: e.target.value })} />
+          </div>
+          <div>
+            <label htmlFor='location_id' hidden />
+            <input id="location_id" name="location_id" value={selectedRestaurant.fsq_id} disabled hidden />
+            <label htmlFor="user_id" />
+            <input id="user_id" name="user_id" value={currentUser.user_id} disabled hidden />
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+      )
+    }
+  }
+
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -185,35 +222,7 @@ const Map = () => {
         <div style={{ width: '90%', maxWidth: '800px' }}>
           <h2>{selectedRestaurant.name}</h2>
           {reviews}
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="rating">Rating:</label>
-              <input
-                type="number"
-                id="rating"
-                name="rating"
-                value={ratings.rating}
-                onChange={e => setRatings({ ...ratings, rating: e.target.value })}
-                min="1"
-                max="10" />
-            </div>
-            <div>
-              <label htmlFor="rating_description">Comments:</label>
-              <textarea
-                id="rating_description"
-                name="rating_description"
-
-                value={ratings.rating_description}
-                onChange={e => setRatings({ ...ratings, rating_description: e.target.value })} />
-            </div>
-            <div>
-              <label htmlFor='location_id' hidden />
-              <input id="location_id" name="location_id" value={selectedRestaurant.fsq_id} disabled />
-              <label htmlFor="user_id" />
-              <input id="user_id" name="user_id" value={currentUser.user_id} disabled />
-            </div>
-            <button type="submit">Submit</button>
-          </form>
+          <ReviewForm />
           <div className="row">
             {comments}
           </div>
