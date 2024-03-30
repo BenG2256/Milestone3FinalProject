@@ -44,7 +44,7 @@ const Map = () => {
             Authorization: 'fsq3DnUrdV1vhfKk1UJCE0RxJaF57v3+QbYEXpJH6w4TAas='
           }
         };
-        
+
         fetch(`https://api.foursquare.com/v3/places/search?query=restaurant&ll=${latitude},${longitude}`, options)
           .then(response => response.json())
           .then(response => {
