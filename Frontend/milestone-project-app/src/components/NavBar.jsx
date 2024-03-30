@@ -5,16 +5,16 @@ import Navbar from 'react-bootstrap/Navbar';
 
 function NavBar() {
     return (
-        <div>
-            <header className="App-header">
+        <div id="App-header">
+            <header >
                 <a href="/">
-                    <h1>Map App</h1>
+                    <h1 className='App-header-text'>Rate A Restaurant 🍜</h1>
                 </a>
                 <Navbar expand="lg" className="bg-body-tertiary">
                 <Container>
                     <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/login">Login</Nav.Link>
+                        <Nav.Link id='login' className='App-header-text' href="/login">Login</Nav.Link>
                     </Nav>
                     </Navbar.Collapse>
                 </Container>
