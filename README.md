@@ -3,7 +3,7 @@
 - PostrgeSQL Express Node React full-stack application, integrates a React frontend with a Node.js / Express.js Backend
   to create an application that allows users to view nearby locations as well as read and write reviews.
 
-- [General Information](#general-info)
+- [General Information](#general-information)
 - [Application Previews](#application-previews)
 - [Backend Technologies](#technologies---backend)
 - [Frontend Technologies](#technologies---frontend)
