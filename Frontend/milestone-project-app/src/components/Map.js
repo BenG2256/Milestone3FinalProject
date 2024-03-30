@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import CommentCard from './commentCard'
 import mapboxgl from 'mapbox-gl';
-
+import { CurrentUser } from '../contexts/CurrentUser'
+import ReviewForm from './NewCommentForm'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiemFjaGZvdW50MSIsImEiOiJjbHU3a2Z3NGgwNzZhMmhwYml1Yng2dDM3In0.hB1Wb6OFmMYNv5gTBXAF-g';
 
 const Map = () => {
+  const { currentUser } = useContext(CurrentUser)
   const [restaurants, setRestaurants] = useState([]);
   const [map, setMap] = useState(null); // Define map state
   const [selectedRestaurant, setSelectedRestaurant] = useState(null); // Define selected restaurant state
-  const [rating, setRating] = useState('');
+  // const [rating, setRating] = useState('');
   const [comment, setComment] = useState('');
 
 
@@ -47,10 +49,36 @@ const Map = () => {
     fetchData();
   }, [selectedRestaurant]);
 
+  //creat review function 
+
+  async function createReview(reviewAttributes) {
+    const response = await fetch(`http://localhost:3001/reviews/${selectedRestaurant.fsq_id}/review`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify(reviewAttributes)
+    })
+    const review = await response.json()
+    setComment({
+      review: review
+    })
+  }
+
+
+
+  async function deleteReview(deletedReview) {
+    await fetch(`http://localhost:3001/reviews/${selectedRestaurant.fsq_id}/review/${deletedReview.review_id}`, {
+      method: 'DELETE'
+    })
+  }
 
 
 
 
+
+  //showing comments logic 
   let comments = (
     <h3 className="inactive">
       No comments yet!
@@ -61,7 +89,7 @@ const Map = () => {
       Not yet rated
     </h3>
   )
-  if (comment.length) {
+  if (Array.isArray(comment) && comment.length) {
     let sumRatings = comment.reduce((tot, c) => {
       return tot + c.rating
     }, 0)
@@ -77,7 +105,7 @@ const Map = () => {
     )
     comments = comment.map(comment => {
       return (
-        <CommentCard key={comment.review_id} comment={comment} />
+        <CommentCard key={comment.review_id} comment={comment} onDelete={() => deleteReview(comment)} />
       )
     })
   }
@@ -114,30 +142,6 @@ const Map = () => {
     setSelectedRestaurant(restaurant);
   };
 
-  const handleRatingChange = (e) => {
-    let value = parseInt(e.target.value);
-    if (isNaN(value) || value < 1) {
-      value = 1;
-    } else if (value > 10) {
-      value = 10;
-    }
-    setRating(value);
-  };
-
-  const handleCommentsChange = (e) => {
-    setComment(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Submit rating and comments
-    console.log("Rating:", rating);
-    console.log("Comments:", comments);
-    // Reset rating and comments fields
-    setRating('');
-    setComment('');
-  };
-
 
 
   return (
@@ -157,23 +161,17 @@ const Map = () => {
         <div style={{ width: '90%', maxWidth: '800px' }}>
           <h2>{selectedRestaurant.name}</h2>
           {reviews}
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="rating">Rating:</label>
-              <input type="number" id="rating" name="rating" value={rating} onChange={handleRatingChange} min="1" max="10" />
-            </div>
-            <div>
-              <label htmlFor="comments">Comments:</label>
-              <textarea id="comments" name="comments" value={comments} onChange={handleCommentsChange} />
-            </div>
-            <button type="submit">Submit</button>
-          </form>
+          <ReviewForm
+            reviews={reviews}
+            onSubmit={createReview} />
           <div className="row">
             {comments}
           </div>
         </div>
 
-      )}
+      )
+      }
+
 
     </div>
   );

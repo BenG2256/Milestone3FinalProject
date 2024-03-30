@@ -31,7 +31,7 @@ router.get('/:location_id', async (req, res) => {
 
 // get a single review
 router.get('/:location_id/review/:review_id', async (req, res) => {
-    let location_id = Number(req.params.location_id)
+    let location_id = req.params.location_id
     let review_id = Number(req.params.review_id)
     const reviews = await Reviews.findOne({
         where: { review_id: review_id, location_id: location_id }
@@ -40,12 +40,12 @@ router.get('/:location_id/review/:review_id', async (req, res) => {
 })
 
 // post a review
-router.post('/', async (req, res) => {
+router.post('/:location_id/review', async (req, res) => {
     try {
-        const { rating, rating_description, user_id, location_id } = req.body;
+        const { rating, rating_description } = req.body;
 
         // Check if required fields are present
-        if (!rating || !rating_description || !user_id || !location_id) {
+        if (!rating || !rating_description) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
 
@@ -54,16 +54,21 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ error: 'Invalid rating value' });
         }
 
-        // Create a new review instance
-        const newReview = new Reviews({
-            rating,
-            rating_description,
-            user_id,
-            location_id
-        });
+        if (!req.currentUser) {
+            return res.status(404).json({ message: `You must be logged in to leave a rant or rave.` })
+        }
 
-        // Save the review to the database
-        await newReview.save();
+        const comment = await Comment.create({
+            ...req.body,
+            author_id: req.currentUser.user_id,
+            location_id: location_id
+        })
+        console.log("comment details ", comment)
+
+        res.send({
+            ...comment.toJSON(),
+            author: req.currentUser
+        })
 
         res.status(200).json({ message: 'Review submitted successfully' });
     } catch (error) {
@@ -81,13 +86,10 @@ router.put('/:location_id/review/:review_id', async (req, res) => {
     let location_id = Number(req.params.location_id)
     let review_id = Number(req.params.review_id)
 
-    if (isNaN(location_id)) {
-        res.status(404).json({ message: `Invalid id "${location_id}` })
-    }
-    else if (isNaN(review_id)) {
+    if (isNaN(review_id)) {
         res.status(404).json({ message: `Invalid id "${review_id}"` })
     } else {
-        const reviews = await Reviews.findOne({
+        const reviews = await Reviews.find({
             where: { review_id: review_id, location_id: location_id }
         })
         if (!reviews) {
@@ -98,8 +100,9 @@ router.put('/:location_id/review/:review_id', async (req, res) => {
             // uncomment out when ready to try with user token
 
 
-        } else if (reviews.user_id !== req.currentUser?.user_id) {
-            res.status(403).json({ message: `You do not have permission to delete comment "${reviews.review_id}"` })
+            // } else if (reviews.user_id !== req.currentUser?.user_id) {
+            //     res.status(403).json({ message: `You do not have permission to delete comment "${reviews.review_id}"` })
+
         } else {
             Object.assign(reviews, req.body)
             await reviews.save()
@@ -111,13 +114,10 @@ router.put('/:location_id/review/:review_id', async (req, res) => {
 
 //delete a review
 router.delete('/:location_id/review/:review_id', async (req, res) => {
-    let location_id = Number(req.params.location_id)
+    let location_id = req.params.location_id
     let review_id = Number(req.params.review_id)
 
-    if (isNaN(location_id)) {
-        res.status(404).json({ message: `Invalid id "${location_id}` })
-    }
-    else if (isNaN(review_id)) {
+    if (isNaN(review_id)) {
         res.status(404).json({ message: `Invalid id "${review_id}"` })
     } else {
         const reviews = await Reviews.findOne({

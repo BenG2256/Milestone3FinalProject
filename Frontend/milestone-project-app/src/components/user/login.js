@@ -29,6 +29,7 @@ function Login() {
         localStorage.setItem('token', data.token)
         navigation(`../home`)
         console.log('Login successful', data.user);
+        console.log("token ", data.token)
       }
     } catch (error) {
       setError(error.message);
