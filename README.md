@@ -21,7 +21,7 @@
 
 ### Backend
 
--PostgreSQL needs to be installed and running prior to starting the application.
+- PostgreSQL needs to be installed and running prior to starting the application.
 For ease of access, pgAdmin4 is recommended.
 
 - Sequelize CLI used for database migration handling.
@@ -69,8 +69,10 @@ For ease of access, pgAdmin4 is recommended.
 - Install & run PostgreSQL
 - Install `npm dotenv`
 - Install Sequelize & Sequelize-cli `npm install sequelize sqlite3` || `npm install --save-dev sequelize-cli`
-- Create a .env file and store **your** PostgreSQL connection information (username, password, default port) into the environmental variables used in the config.js file.
+- Create a .env file and store **your** PostgreSQL connection information (username, password, default port for your backend server) into the environmental variables used in the config.js file.
   Additionally, create a backend server `PORT` variable and assign it to a free port (3001), as well as a `JWT_SECRET` variable (assign any value)
+  Create a database and assign the name of your database to the `DB_DATABASE` environmental variable
+- Run npx sequelize-cli db:seed --seed name-of-seeder (replace with the full name including .js of each seeder file, UserSeed.js needs to run before ReviewSeed.js)
 - Run `npm start`
 
 ## App Setup - Frontend
