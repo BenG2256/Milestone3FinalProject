@@ -109,3 +109,7 @@ For ease of access, pgAdmin4 is recommended.
 ## Database Diagram
 
 ![Screenshot of the first database diagram](/Frontend/public/DatabaseDiagram.png)
+
+## Bugs/Technical Issues
+
+- Frontend - Map not showing markers for user location or restaurant locations
