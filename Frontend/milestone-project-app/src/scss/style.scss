@@ -8,9 +8,10 @@ $dark-brown: #805f26;
 * {
     text-decoration: none;
     font-family: Tahoma, Verdana, sans-serif;
+    
 }
 
-.App-body {
+.App-body, #login-bg {
     background-color: $light-brown;
     padding-bottom: 50px;
 }
@@ -78,7 +79,7 @@ class - login-container
             margin: 20px;
         }
     }
-    .login-label {
+    label {
         color: $brown;
     }
 
@@ -95,7 +96,7 @@ class -
 element - h2
 */
 
-h2 {
+h2, h1 {
     color: $brown;
 }
 
@@ -109,6 +110,6 @@ element - button
 class - 
 */
 
-button {
+button, #button {
     color: $dark-brown
 }

@@ -15,7 +15,7 @@ const Map = () => {
   const [ratings, setRatings] = useState(
     {
       rating: 5,
-      rating_description: 'enter comment',
+      rating_description: '',
     }
   );
   const [comment, setComment] = useState('');
@@ -191,6 +191,7 @@ const Map = () => {
               id="rating_description"
               name="rating_description"
               value={ratings.rating_description}
+              placeholder='Enter Comment'
               onChange={e => setRatings({ ...ratings, rating_description: e.target.value })} />
           </div>
           <div>
@@ -228,6 +229,7 @@ const Map = () => {
           {reviews}
           <ReviewForm />
           <div className="row">
+            <h2>Comments</h2>
             {comments}
           </div>
         </div>

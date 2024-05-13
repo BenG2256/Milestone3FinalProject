@@ -8,22 +8,19 @@ import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CurrentUser } from '../contexts/CurrentUser'
 
-
 function NavBar() {
-
-
     const { currentUser } = useContext(CurrentUser)
     const navigation = useNavigate()
 
     let loginActions = (
         <>
             <Nav.Item>
-                <Nav.Link href="" onClick={() => navigation("/signup")}>
+                <Nav.Link className='App-header-text' href="" onClick={() => navigation("/signup")}>
                     Sign Up
                 </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-                <Nav.Link href="" onClick={() => navigation("/login")}>
+                <Nav.Link className='App-header-text' href="" onClick={() => navigation("/login")}>
                     Login
                 </Nav.Link>
             </Nav.Item>
@@ -41,7 +38,7 @@ function NavBar() {
                 <Dropdown.Toggle as={NavLink}>{currentUser.username}</Dropdown.Toggle>
                 <Dropdown.Menu>
                     <Dropdown.Item>
-                        <Nav.Link onClick={handleLogout}>
+                        <Nav.Link className='App-header-text' onClick={handleLogout}>
                             Logout
                         </Nav.Link>
                     </Dropdown.Item>
@@ -54,10 +51,10 @@ function NavBar() {
 
 
     return (
-        <div>
-            <header className="App-header">
+        <div id="App-header">
+            <header >
                 <a href="/">
-                    <h1>Map App</h1>
+                    <h1 className='App-header-text'>Rate A Restaurant 🍜</h1>
                 </a>
                 <Navbar expand="lg" className="bg-body-tertiary">
                     <Container>
@@ -65,10 +62,7 @@ function NavBar() {
                             <Nav className="me-auto">
                                 {loginActions}
                                 <Nav.Item>
-                                    <Nav.Link href="" onClick={() => navigation("/Map")}>Map</Nav.Link>
-                                </Nav.Item>
-                                <Nav.Item>
-                                    <Nav.Link href="" onClick={() => navigation("/Home")}>Home</Nav.Link>
+                                    <Nav.Link className='App-header-text' href="" onClick={() => navigation("/")}>Home</Nav.Link>
                                 </Nav.Item>
                             </Nav>
                         </Navbar.Collapse>
@@ -77,6 +71,7 @@ function NavBar() {
             </header>
         </div >
     )
+
 }
 
 

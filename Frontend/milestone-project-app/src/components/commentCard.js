@@ -18,11 +18,10 @@ function CommentCard({ comment, onDelete }) {
 
     return (
         <div className="border col-sm-4">
-            <h2 >Comments</h2>
-            <h4>{comment.rating_description}</h4>
             <h3>
-                <strong>- {comment.author.username}</strong>
+                <strong>- {comment.author.username} Says: </strong>
             </h3>
+            <h4>{comment.rating_description}</h4>
             <h4>Rating: {comment.rating}</h4>
             {deleteButton}
         </div>

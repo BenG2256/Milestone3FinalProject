@@ -3,7 +3,7 @@
   font-family: Tahoma, Verdana, sans-serif;
 }
 
-.App-body {
+.App-body, #login-bg {
   background-color: #fff2da;
   padding-bottom: 50px;
 }
@@ -56,7 +56,7 @@ class - login-container
 .login-container #form-container .form-group {
   margin: 20px;
 }
-.login-container .login-label {
+.login-container label {
   color: #d3ac63;
 }
 
@@ -65,7 +65,7 @@ id -
 class - 
 element - h2
 */
-h2 {
+h2, h1 {
   color: #d3ac63;
 }
 
@@ -74,6 +74,6 @@ id -
 element - button
 class - 
 */
-button {
+button, #button {
   color: #805f26;
 }/*# sourceMappingURL=style.css.map */
