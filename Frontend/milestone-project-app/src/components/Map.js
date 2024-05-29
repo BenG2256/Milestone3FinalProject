@@ -68,7 +68,7 @@ const Map = () => {
         rating: ratings.rating,
         rating_description: ratings.rating_description,
         location_id: selectedRestaurant.fsq_id,
-        author_id: currentUser.user_id
+        user_id: currentUser.user_id
         // Add other necessary fields here
       };
       // Call the API with formData

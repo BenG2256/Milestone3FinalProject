@@ -43,4 +43,23 @@ router.get('/', async (req, res) => {
     res.json(users)
 })
 
+router.delete('/:user_id', async (req, res) => {
+    let user_id = req.params.user_id
+
+    if (isNaN(user_id)) {
+        res.status(404).json({ message: `Invalid id "${user_id}"`})
+    } else {
+        const user = await Users.findOne({
+            where: {user_id: user_id}
+        })
+        if (!user) {
+            res.status(404).json({message : `Could not find User with id"${user_id}"`})
+        } else {
+            await user.destroy()
+            console.log("user deleted")
+            res.json(user)
+        }
+    }
+})
+
 module.exports = router

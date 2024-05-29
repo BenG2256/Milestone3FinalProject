@@ -1,5 +1,7 @@
 'use strict';
 
+const { toDefaultValue } = require("sequelize/lib/utils");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('users', {
@@ -26,6 +28,11 @@ module.exports = {
       city_state: {
         type: Sequelize.STRING,
         allowNull: false
+      },
+      role: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: 'user'
       },
     });
   },

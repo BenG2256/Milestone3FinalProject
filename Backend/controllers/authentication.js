@@ -3,7 +3,7 @@ const db = require("../models")
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const { Users, Admins } = db
+const { Users } = db
 
 router.post('/login', async (req, res) => {
     try {
@@ -35,38 +35,6 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
-
-router.post('/login/admin', async (req, res) => {
-    try {
-        const { email, password } = req.body;
-
-        console.log(password)
-        console.log(await bcrypt.hash(password, 10))
-        // Validate email and password
-        if (!email || !password) {
-            return res.status(400).json({ message: 'email and password are required' });
-        }
-
-        const admin = await Admins.findOne({ where: { email: email } });
-        if (!admin || !await bcrypt.compare(password, admin.password)) {
-            return res.status(401).json({ message: 'Invalid email or password' });
-        } else {
-
-            // Generate JWT token
-            const token = jwt.sign({ id: admin.id }, process.env.JWT_SECRET);
-
-            // Log successful login attempt
-            console.log(`User ${email} logged in successfully`);
-
-            // Send user data and token to the client
-            res.json({ admin, token });
-        }
-    } catch (error) {
-        console.error('Error during login:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-});
-
 
 router.get('/profile', async (req, res) => {
     res.json(req.currentUser)

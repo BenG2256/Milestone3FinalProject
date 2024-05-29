@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate({ Reviews }) {
       Users.hasMany(Reviews, {
         as: 'author',
-        foreignKey: 'author_id'
+        foreignKey: 'user_id'
       });
     }
     // Hash password before saving to the database
@@ -41,6 +41,11 @@ module.exports = (sequelize, DataTypes) => {
     city_state: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: 'user'
     }
   }, {
     sequelize,

@@ -25,7 +25,7 @@ module.exports = {
         allowNull: false,
       },
       location_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
       },
     });

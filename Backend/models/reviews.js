@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Reviews.belongsTo(Users, {
         as: 'author',
-        foreignKey: 'author_id'
+        foreignKey: 'user_id'
       });
     }
   }
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
 
     },
     // was user_id, not author_id
-    author_id: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
